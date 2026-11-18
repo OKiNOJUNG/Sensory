@@ -1,0 +1,2131 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BLEND285 Sensory Test 2026</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless/borderless.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-dark: #8a6d3b;
+            --gold-light: #FFF8E1;
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: rgba(255, 255, 255, 0.85);
+            --shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
+            --error-color: #ff4d4d;
+            --error-bg: #fff0f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f4f4f4;
+        }
+
+        .bg-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 20%, #fffdf5 0%, #f7ecd0 50%, #e5cf8e 100%);
+            z-index: -2;
+            transform: scale(1.05);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                    rgba(255, 252, 240, 0.95) 0%,
+                    rgba(255, 248, 225, 0.82) 50%,
+                    rgba(212, 175, 55, 0.2) 100%);
+            backdrop-filter: blur(2px);
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1060px;
+            padding: 20px;
+            z-index: 10;
+            padding-bottom: 50px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: visible;
+            margin-bottom: 25px;
+            transition: all 0.4s ease;
+            width: 100%;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #8a6d3b 0%, #D4AF37 25%, #FDB931 50%, #D4AF37 75%, #8a6d3b 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .sub-logo {
+            text-align: center;
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .passcode-input {
+            width: 100%;
+            max-width: 240px;
+            padding: 14px;
+            font-size: 2rem;
+            text-align: center;
+            letter-spacing: 10px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            margin: 0 auto 25px;
+            display: block;
+            outline: none;
+            color: var(--gold-dark);
+            background: rgba(255, 255, 255, 0.9);
+            transition: 0.3s;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 600;
+        }
+
+        .passcode-input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-gold {
+            width: 100%;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Prompt', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(184, 134, 11, 0.25);
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 25px rgba(184, 134, 11, 0.35);
+        }
+
+        .btn-gold:active {
+            transform: translateY(0);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.45s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .float-anim {
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- Self-Service Phone + One-Time Code Styles --- */
+        .step-box {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1.5px solid rgba(212, 175, 55, 0.35);
+            border-radius: 18px;
+            padding: 18px 18px 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .step-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--gold-dark);
+            margin-bottom: 10px;
+        }
+
+        .step-num-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .phone-input {
+            width: 100%;
+            padding: 13px 16px;
+            font-size: 1.35rem;
+            text-align: center;
+            letter-spacing: 2px;
+            border: 2px solid rgba(212, 175, 55, 0.35);
+            border-radius: 50px;
+            outline: none;
+            color: #333;
+            background: #fff;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 500;
+            transition: 0.25s;
+            margin-bottom: 12px;
+        }
+
+        .phone-input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.28);
+        }
+
+        .btn-outline-gold {
+            width: 100%;
+            padding: 12px 18px;
+            background: #fffdf5;
+            color: var(--gold-dark);
+            border: 2px solid var(--gold-primary);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Prompt', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-outline-gold:hover:not(:disabled) {
+            background: var(--gold-primary);
+            color: #fff;
+        }
+
+        .btn-outline-gold:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .otp-ticket-banner {
+            background: linear-gradient(135deg, #fffdf4 0%, #faecc4 100%);
+            border: 2px dashed #B8860B;
+            border-radius: 14px;
+            padding: 12px 14px;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .otp-code-display {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: #8a6d3b;
+            margin: 4px 0;
+            user-select: all;
+        }
+
+        .admin-link-btn {
+            background: transparent;
+            border: none;
+            color: #8a6d3b;
+            font-size: 0.85rem;
+            font-family: 'Prompt', sans-serif;
+            cursor: pointer;
+            text-decoration: underline;
+            opacity: 0.85;
+            padding: 6px 12px;
+        }
+
+        .admin-link-btn:hover {
+            opacity: 1;
+            color: #B8860B;
+        }
+
+        /* --- Survey Form Styles --- */
+        .top-nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        .btn-back-home {
+            padding: 8px 16px;
+            background: #fff;
+            border: 1.5px solid var(--gold-primary);
+            border-radius: 30px;
+            color: var(--gold-dark);
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .btn-back-home:hover {
+            background: var(--gold-primary);
+            color: #fff;
+        }
+
+        .form-group {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .form-group.error-highlight {
+            border: 2px solid var(--error-color);
+            background: var(--error-bg);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 15px;
+        }
+
+        .q-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            border: 1.5px solid #e6e0cc;
+            border-radius: 12px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .option-item:hover {
+            border-color: var(--gold-primary);
+            background: var(--gold-light);
+        }
+
+        .option-item input {
+            accent-color: var(--gold-dark);
+            transform: scale(1.2);
+        }
+
+        .option-item-other {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            border: 1.5px solid #e6e0cc;
+            border-radius: 12px;
+            padding: 12px 15px;
+        }
+
+        .other-label-wrap {
+            display: flex;
+            align-items: center;
+        }
+
+        .other-input-field {
+            flex: 1;
+            min-width: 180px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #e0d6b8;
+            border-radius: 12px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.98rem;
+            background: #fff;
+            outline: none;
+        }
+
+        select:focus,
+        textarea:focus {
+            border-color: var(--gold-primary);
+        }
+
+        .q6-mobile-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .q6-row-card {
+            background: #fffdf8;
+            border: 1px solid #eadcb3;
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .q6-header {
+            font-weight: 600;
+            color: var(--gold-dark);
+            margin-bottom: 10px;
+            font-size: 0.98rem;
+        }
+
+        .q6-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .q6-btn-label {
+            cursor: pointer;
+        }
+
+        .q6-btn-label input {
+            display: none;
+        }
+
+        .q6-btn-box {
+            border: 2px solid #e0d4b0;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            background: #fff;
+            transition: all 0.2s;
+        }
+
+        .q6-btn-num {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #444;
+        }
+
+        .q6-btn-label input:checked + .q6-btn-box {
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            border-color: #8a6d3b;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+        }
+
+        .q6-btn-label input:checked + .q6-btn-box .q6-btn-num {
+            color: #fff;
+        }
+
+        /* --- Dashboard Styles --- */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .btn-share {
+            padding: 9px 18px;
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.2);
+            transition: 0.25s;
+        }
+
+        .btn-share:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(184, 134, 11, 0.3);
+        }
+
+        .auto-refresh-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: #2e7d32;
+            background: #e8f5e9;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+            animation: pulseDot 1.6s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.25); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        #activeFilters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .filter-tag {
+            background: #fff8e1;
+            border: 1px solid #d4af37;
+            color: #8a6d3b;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.83rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #fffdf7 0%, #fff8e4 100%);
+            border: 1.5px solid rgba(212, 175, 55, 0.45);
+            border-radius: 16px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: #B8860B;
+            line-height: 1.1;
+        }
+
+        .stat-lbl {
+            font-size: 0.92rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .charts-symmetrical-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .chart-box {
+            background: #fff;
+            border: 1px solid #eee4c8;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 290px;
+        }
+
+        .chart-box-tall {
+            min-height: 330px;
+        }
+
+        .chart-title {
+            font-size: 0.96rem;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .chart-highlight {
+            font-size: 0.75rem;
+            background: #fff3cd;
+            color: #8a6d3b;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            min-height: 220px;
+        }
+
+        .top-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .top-table th,
+        .top-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #f0ead8;
+            text-align: left;
+        }
+
+        .top-table th {
+            background: #fdf8e8;
+            color: #8a6d3b;
+            font-weight: 600;
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #D4AF37;
+            color: #fff;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .respondent-table-section {
+            margin-top: 26px;
+            padding-top: 20px;
+            border-top: 2px dashed #e6d8ad;
+        }
+
+        .respondent-table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .respondent-table-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #8a6d3b;
+        }
+
+        .table-responsive-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .respondent-data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        .respondent-data-table th,
+        .respondent-data-table td {
+            border: 1px solid #e6dec5;
+            padding: 7px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .respondent-data-table th {
+            background: #fbf4df;
+            color: #6d5323;
+            font-weight: 600;
+        }
+
+        .respondent-data-table tbody tr:nth-child(even) {
+            background: #fffdf8;
+        }
+
+        #a4ExportStage {
+            position: fixed;
+            left: -99999px;
+            top: 0;
+            width: 1122px;
+            z-index: -999;
+        }
+
+        @media (max-width: 768px) {
+            .charts-symmetrical-grid,
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+            .glass-card {
+                padding: 25px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-fixed"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="container" id="mainContainer">
+
+        <!-- หน้าเข้าสู่ระบบ (ลงทะเบียนเบอร์มือถือ + รับรหัสครั้งเดียวในมือถือเครื่องเดียว) -->
+        <div id="loginSection" class="glass-card float-anim"
+            style="margin-top: 5vh; max-width: 520px; margin-left: auto; margin-right: auto;">
+            <div class="logo-text">BLEND285</div>
+            <p class="sub-logo" style="margin-bottom: 22px;">ระบบบันทึกผลการทดสอบน้ำสุรา</p>
+
+            <!-- ขั้นตอนที่ 1: กรอกเบอร์มือถือและกดรับรหัสครั้งเดียว -->
+            <div class="step-box">
+                <div class="step-label">
+                    <span class="step-num-badge">1</span>
+                    <span>ลงทะเบียนเบอร์มือถือเพื่อรับรหัสผ่าน</span>
+                </div>
+                <input type="tel" id="userPhone" class="phone-input" placeholder="08X-XXX-XXXX" maxlength="10"
+                    inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)"
+                    onkeydown="if(event.key==='Enter') requestOneTimeCode()">
+                <button type="button" id="btnRequestOtp" class="btn-outline-gold" onclick="requestOneTimeCode()">
+                    📲 กดรับรหัสเข้าทำแบบทดสอบ
+                </button>
+
+                <div id="otpDisplayBanner" class="otp-ticket-banner hidden">
+                    <div style="font-size: 0.8rem; color: #666;">รหัสเข้าทำแบบทดสอบเฉพาะเครื่องของท่าน</div>
+                    <div id="otpIssuedText" class="otp-code-display">------</div>
+                    <div id="otpExpireNote" style="font-size: 0.76rem; color: #8a6d3b;">
+                        *รหัสนี้ผูกกับเบอร์และมือถือเครื่องนี้เท่านั้น ไม่สามารถส่งต่อให้ผู้อื่นได้
+                    </div>
+                </div>
+            </div>
+
+            <!-- ขั้นตอนที่ 2: กรอกรหัส 6 หลักที่ได้รับเพื่อเข้าทำแบบสอบถาม -->
+            <div class="step-box" id="step2Box">
+                <div class="step-label">
+                    <span class="step-num-badge">2</span>
+                    <span>กรอกรหัสผ่าน 6 หลักที่ได้รับเพื่อเริ่มทำแบบสอบถาม</span>
+                </div>
+                <input type="text" id="passcode" class="passcode-input"
+                    style="width: 100%; max-width: 280px; font-size: 1.65rem; letter-spacing: 7px; text-transform: uppercase; margin-bottom: 16px;"
+                    placeholder="••••••" maxlength="6" autocomplete="one-time-code"
+                    oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6)"
+                    onkeydown="if(event.key==='Enter') checkLogin()">
+                <button type="button" class="btn-gold" onclick="checkLogin()">เข้าสู่ระบบทำแบบสอบถาม</button>
+            </div>
+
+            <div style="text-align: center; margin-top: 8px;">
+                <button type="button" class="admin-link-btn" onclick="promptAdminLogin()">
+                    🔐 สำหรับผู้จัดงาน / ดูสรุปผล Dashboard & พิมพ์ QR หน้างาน
+                </button>
+            </div>
+        </div>
+
+        <!-- หน้าแบบสอบถาม -->
+        <form id="surveyForm" class="glass-card hidden" onsubmit="return false;">
+            <div class="top-nav-bar">
+                <button type="button" class="btn-back-home" onclick="goHome()">
+                    🏠 กลับหน้าแรก
+                </button>
+                <span id="activeTesterBadge" style="font-size:0.85rem; color:#8a6d3b; font-weight:500;">สิทธิ์เข้าใช้งาน: ยืนยันแล้ว (1 ครั้ง/วัน)</span>
+            </div>
+
+            <h2 style="text-align:center; color:#B8860B; margin-bottom:30px; font-weight:700;">แบบสอบถาม</h2>
+
+            <div class="form-group" id="grp_q1">
+                <div class="form-header"><span class="q-badge">1</span> สถานที่ทดสอบ <span style="color:red">*</span></div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q1" value="อาคารแสงโสม พหลโยธิน"> อาคารแสงโสม พหลโยธิน</label>
+                    <label class="option-item"><input type="radio" name="q1" value="โรงงาน สุรากระทิงแดง (1988) จำกัด"> โรงงาน สุรากระทิงแดง (1988) จำกัด</label>
+                </div>
+            </div>
+
+            <div class="form-group" id="grp_q2">
+                <div class="form-header"><span class="q-badge">2</span> เพศ <span style="color:red">*</span></div>
+                <div class="options-grid" style="grid-template-columns: 1fr 1fr;">
+                    <label class="option-item"><input type="radio" name="q2" value="ชาย"> ชาย</label>
+                    <label class="option-item"><input type="radio" name="q2" value="หญิง"> หญิง</label>
+                </div>
+            </div>
+
+            <div class="form-group" id="grp_q3">
+                <div class="form-header"><span class="q-badge">3</span> ช่วงอายุ <span style="color:red">*</span></div>
+                <select id="q3">
+                    <option value="" disabled selected>กรุณาเลือก...</option>
+                    <option value="23-29">23-29 ปี</option>
+                    <option value="30-37">30-37 ปี</option>
+                    <option value="38-45">38-45 ปี</option>
+                    <option value="มากกว่า 45">มากกว่า 45 ปี</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="grp_q4">
+                <div class="form-header"><span class="q-badge">4</span> เครื่องดื่มที่นิยม (เลือกได้มากกว่า 1) <span style="color:red">*</span></div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="checkbox" name="q4" value="Black Label"> Black Label</label>
+                    <label class="option-item"><input type="checkbox" name="q4" value="Red Label"> Red Label</label>
+                    <label class="option-item"><input type="checkbox" name="q4" value="BLEND285"> BLEND285</label>
+                    <label class="option-item"><input type="checkbox" name="q4" value="หงส์ทอง"> หงส์ทอง</label>
+                    <label class="option-item"><input type="checkbox" name="q4" value="แสงโสม"> แสงโสม</label>
+                    <label class="option-item"><input type="checkbox" name="q4" value="สุราขาว"> สุราขาว</label>
+                    <label class="option-item"><input type="checkbox" name="q4" value="เบียร์"> เบียร์</label>
+                    <label class="option-item"><input type="checkbox" name="q4" value="RTD"> RTD</label>
+
+                    <div class="option-item-other">
+                        <div class="other-label-wrap">
+                            <input type="checkbox" name="q4" id="q4_other_chk" value="อื่นๆ"
+                                style="margin-right:15px; accent-color:#8a6d3b; transform:scale(1.2);">
+                            <span style="cursor:pointer;" onclick="document.getElementById('q4_other_chk').click()">อื่นๆ (โปรดระบุ) :</span>
+                        </div>
+                        <input type="text" id="q4_other_txt" class="other-input-field" disabled placeholder="ระบุยี่ห้อ...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="grp_q5">
+                <div class="form-header"><span class="q-badge">5</span> ความถี่ในการดื่ม <span style="color:red">*</span></div>
+                <select id="q5">
+                    <option value="" disabled selected>กรุณาเลือก...</option>
+                    <option value="ทุกวัน">ทุกวัน</option>
+                    <option value="2-4วัน/ครั้ง">2-4วัน/ครั้ง</option>
+                    <option value="สัปดาห์/ครั้ง">สัปดาห์/ครั้ง</option>
+                    <option value="นานๆ/ครั้ง">นานๆ/ครั้ง</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="grp_q6">
+                <div class="form-header" style="align-items:flex-start;">
+                    <span class="q-badge">6</span>
+                    <div>
+                        ท่านชอบสุราตัวอย่างหมายเลขใด <span style="color:red">*</span>
+                        <div style="font-size:0.8rem; color:#888; margin-top:5px; font-weight:400;">
+                            (กรุณาเลือกให้ครบทุกข้อ และห้ามเลือกเบอร์ซ้ำในแต่ละหัวข้อ)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q6-mobile-container">
+                    <div class="q6-row-card">
+                        <div class="q6-header">🥇 ชอบมากที่สุด</div>
+                        <div class="q6-options">
+                            <label class="q6-btn-label"><input type="radio" name="q6_r1" value="512" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">512</div></div></label>
+                            <label class="q6-btn-label"><input type="radio" name="q6_r1" value="524" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">524</div></div></label>
+                            <label class="q6-btn-label"><input type="radio" name="q6_r1" value="536" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">536</div></div></label>
+                        </div>
+                    </div>
+                    <div class="q6-row-card">
+                        <div class="q6-header">🥈 ชอบปานกลาง</div>
+                        <div class="q6-options">
+                            <label class="q6-btn-label"><input type="radio" name="q6_r2" value="512" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">512</div></div></label>
+                            <label class="q6-btn-label"><input type="radio" name="q6_r2" value="524" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">524</div></div></label>
+                            <label class="q6-btn-label"><input type="radio" name="q6_r2" value="536" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">536</div></div></label>
+                        </div>
+                    </div>
+                    <div class="q6-row-card">
+                        <div class="q6-header">🥉 ชอบน้อยที่สุด</div>
+                        <div class="q6-options">
+                            <label class="q6-btn-label"><input type="radio" name="q6_r3" value="512" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">512</div></div></label>
+                            <label class="q6-btn-label"><input type="radio" name="q6_r3" value="524" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">524</div></div></label>
+                            <label class="q6-btn-label"><input type="radio" name="q6_r3" value="536" onchange="checkGrid(this)"><div class="q6-btn-box"><div class="q6-btn-num">536</div></div></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="grp_q7">
+                <div class="form-header"><span class="q-badge">7</span> ความใกล้เคียงของรสชาติ <span style="color:red">*</span></div>
+                <select id="q7">
+                    <option value="" disabled selected>กรุณาเลือก...</option>
+                    <option value="512-524">512-524</option>
+                    <option value="512-536">512-536</option>
+                    <option value="524-536">524-536</option>
+                    <option value="ใกล้เคียงกันทั้งหมด">ใกล้เคียงกันทั้งหมด</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="grp_q8">
+                <div class="form-header"><span class="q-badge">8</span> ข้อเสนอแนะ (ถ้ามี)</div>
+                <textarea id="q8" rows="3" placeholder="ระบุ..."></textarea>
+            </div>
+
+            <button type="button" class="btn-gold" onclick="submitForm()">ยืนยันส่งคำตอบ</button>
+            <button type="button" class="btn-gold" style="background:#888; margin-top:15px; box-shadow:none;" onclick="goHome()">กลับหน้าแรก</button>
+        </form>
+
+        <!-- หน้าสรุปผลการทดสอบ (เฉพาะผู้จัดงาน/ผู้ดูแลระบบ) -->
+        <div id="dashboardSection" class="glass-card hidden" style="max-width: 1020px; margin: 0 auto;">
+            <div class="header-row">
+                <div>
+                    <h2 style="color:#B8860B; margin:0; font-size:1.75rem;">สรุปผลการทดสอบ (Sensory Test 2026)</h2>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:4px;">
+                        <span style="color:#666; font-size:0.88rem;">Real-time Data Dashboard <span id="lastUpdatedText"></span></span>
+                        <span class="auto-refresh-indicator">
+                            <span class="pulse-dot"></span> อัปเดตอัตโนมัติเมื่อมีข้อมูลใหม่
+                        </span>
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn-share" onclick="loadDashboardData(false)">🔄 รีเฟรชข้อมูล</button>
+                    <button class="btn-share" onclick="openQrPosterModal()">🖨️ พิมพ์ป้าย QR หน้างาน</button>
+                    <button class="btn-share" onclick="exportReportA4()">📥 Download Report (A4)</button>
+                    <button class="btn-back-home" onclick="goHome()">🏠 กลับหน้าแรก</button>
+                </div>
+            </div>
+
+            <div id="activeFilters"></div>
+
+            <div id="pdfContent" style="background: white; padding: 26px; border-radius: 20px;">
+                <div class="stat-grid reveal active">
+                    <div class="stat-card">
+                        <div class="stat-val" id="totalCount">0</div>
+                        <div class="stat-lbl">ผู้ตอบแบบสอบถาม (คน)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val" id="blendDrinkerCount">0</div>
+                        <div class="stat-lbl">ผู้ดื่ม BLEND285 (คน)</div>
+                    </div>
+                </div>
+
+                <div class="charts-symmetrical-grid reveal active">
+                    <div class="chart-box">
+                        <div class="chart-title">1. สถานที่ทดสอบ <small style="color:#999; font-weight:normal;">(คลิกเพื่อกรอง)</small></div>
+                        <div class="chart-wrapper"><canvas id="chartQ1"></canvas></div>
+                    </div>
+
+                    <div class="chart-box">
+                        <div class="chart-title">2. เพศ <small style="color:#999; font-weight:normal;">(คลิกเพื่อกรอง)</small></div>
+                        <div class="chart-wrapper"><canvas id="chartQ2"></canvas></div>
+                    </div>
+
+                    <div class="chart-box">
+                        <div class="chart-title">3. ช่วงอายุ <small style="color:#999; font-weight:normal;">(คลิกเพื่อกรอง)</small></div>
+                        <div class="chart-wrapper"><canvas id="chartQ3"></canvas></div>
+                    </div>
+
+                    <div class="chart-box">
+                        <div class="chart-title">4. สินค้ายอดนิยม (Top 5) <span class="chart-highlight">จำนวน (คน) | %</span></div>
+                        <div style="width:100%; flex:1; display:flex; flex-direction:column; justify-content:center;">
+                            <table class="top-table" id="topProductTableWrap">
+                                <thead>
+                                    <tr>
+                                        <th style="width:55px;">อันดับ</th>
+                                        <th>สินค้า</th>
+                                        <th style="text-align:right; width:110px;">คน (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="topProductTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="chart-box">
+                        <div class="chart-title">5. ความถี่ในการดื่ม <small style="color:#999; font-weight:normal;">(คลิกเพื่อกรอง)</small></div>
+                        <div class="chart-wrapper"><canvas id="chartQ5"></canvas></div>
+                    </div>
+
+                    <div class="chart-box">
+                        <div class="chart-title">7. ความใกล้เคียงรสชาติ <small style="color:#999; font-weight:normal;">(คลิกเพื่อกรอง)</small></div>
+                        <div class="chart-wrapper"><canvas id="chartQ7"></canvas></div>
+                    </div>
+
+                    <div class="chart-box chart-box-tall">
+                        <div class="chart-title">6.1 ผลทดสอบ (ภาพรวม) <small style="color:#999; font-weight:normal;">(คลิกแท่งกราฟเพื่อกรอง)</small></div>
+                        <div class="chart-wrapper"><canvas id="chartQ6"></canvas></div>
+                    </div>
+
+                    <div class="chart-box chart-box-tall" style="border: 2px solid var(--gold-primary); background: #fffcf0;">
+                        <div class="chart-title">6.2 ผลทดสอบ (เฉพาะกลุ่ม BLEND285) <span class="chart-highlight">Cross-Filter</span></div>
+                        <div class="chart-wrapper"><canvas id="chartQ6_Filtered"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="no-print" style="text-align: center; margin-top: 18px; color: #999; font-size: 0.82rem;">
+                    💡 คลิกที่กราฟเพื่อกรองข้อมูล (คลิกซ้ำเพื่อยกเลิกตัวกรอง)
+                </div>
+
+                <div class="respondent-table-section" id="respondentTableSection">
+                    <div class="respondent-table-header">
+                        <div class="respondent-table-title">📋 ตารางข้อมูลผู้กรอกแบบฟอร์มรายบุคคล (ครบทุกช่อง)</div>
+                        <div style="font-size: 0.85rem; color: #666;" id="tableRowCountLabel">ทั้งหมด 0 รายการ</div>
+                    </div>
+                    <div class="table-responsive-wrap">
+                        <table class="respondent-data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 4%;">#</th>
+                                    <th style="width: 11%;">วัน-เวลา</th>
+                                    <th style="width: 13%;">1. สถานที่ทดสอบ</th>
+                                    <th style="width: 6%;">2. เพศ</th>
+                                    <th style="width: 8%;">3. ช่วงอายุ</th>
+                                    <th style="width: 14%;">4. เครื่องดื่มที่นิยม</th>
+                                    <th style="width: 9%;">5. ความถี่</th>
+                                    <th style="width: 6%;">6. ชอบมากที่สุด</th>
+                                    <th style="width: 6%;">6. ชอบปานกลาง</th>
+                                    <th style="width: 6%;">6. ชอบน้อยที่สุด</th>
+                                    <th style="width: 8%;">7. ความใกล้เคียง</th>
+                                    <th style="width: 9%;">8. ข้อเสนอแนะ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="respondentTableBody">
+                                <tr>
+                                    <td colspan="12" class="text-center" style="padding: 20px; color: #999;">กำลังโหลดข้อมูล...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn-gold no-print" style="background:#888; margin-top:25px; box-shadow:none;" onclick="goHome()">กลับหน้าแรก</button>
+        </div>
+
+    </div>
+
+    <div id="a4ExportStage" aria-hidden="true"></div>
+
+    <script>
+        // ============================================================================
+        // 🔗 การเชื่อมโยงข้อมูลชุดใหม่จาก Google Form โดยตรง
+        // - Google Sheet (การตอบกลับ): https://docs.google.com/spreadsheets/d/1mbcLx8Yzu-OHAZ-PEUu4JM6tglBB6x5Z897NX41WLgk/edit?gid=1940157450#gid=1940157450
+        // - Google Form 2026: https://docs.google.com/forms/d/195SE7PHawD7X2GnoBwj4bYaijvCnAugMbmlB_SsED8w/edit
+        // 📌 สำคัญ: นำ Web App URL ที่ได้จากการกด Deploy ไฟล์ Code.gs มาวางแทนที่ใน AUTH_API_URL ด้านล่างนี้
+        // ============================================================================
+        const AUTH_API_URL = 'https://script.google.com/macros/s/AKfycbzSy7YxqdrrzMqtl-MNGP_0iO059Rt2Xamx3O_lTAZgIGZYoHe7IUUOZXAnmWns7PX0/exec';
+
+        const SPREADSHEET_ID = '1mbcLx8Yzu-OHAZ-PEUu4JM6tglBB6x5Z897NX41WLgk';
+        const FORM_RESPONSES_GID = '1940157450';
+        const LINKED_GOOGLE_FORM_ID = '195SE7PHawD7X2GnoBwj4bYaijvCnAugMbmlB_SsED8w';
+
+        const RAW_CSV_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=${FORM_RESPONSES_GID}`;
+
+        const CACHE_ROWS_KEY = 'sensory_2026_direct_cached_rows';
+        const PENDING_ROWS_KEY = 'sensory_2026_direct_pending_rows';
+        const ACTIVE_SESSION_KEY = 'sensory_2026_active_session_role';
+        const ACTIVE_AUTH_PAYLOAD_KEY = 'sensory_2026_active_auth_payload';
+        const FORM_DRAFT_KEY = 'sensory_2026_form_draft';
+        const DEVICE_UID_KEY = 'sensory_2026_device_uid';
+        const SUBMITTED_DATE_KEY = 'sensory_2026_submitted_date';
+        const EVENT_GATE_STORAGE_KEY = 'sensory_2026_event_gate_key';
+        const SAVED_API_URL_KEY = 'sensory_2026_custom_api_url';
+        const PENDING_TTL_MS = 10 * 60 * 1000;
+        const AUTO_REFRESH_INTERVAL_MS = 5000;
+
+        let rawDashboardData = [];
+        let lastFilteredData = [];
+        let activeFilters = {};
+        let chartInstances = {};
+        let dashboardRefreshTimer = null;
+        let isDashboardLoading = false;
+        let lastDataSignature = '';
+        let isSubmittingForm = false;
+        let isRequestingOtp = false;
+        let adminSessionCache = { passcode: '', eventGateKey: '', requireGateKey: false };
+
+        let sensoryChannel = null;
+        try {
+            if ('BroadcastChannel' in window) {
+                sensoryChannel = new BroadcastChannel('blend285_sensory_2026_channel');
+                sensoryChannel.onmessage = (event) => {
+                    if (event && event.data && event.data.type === 'NEW_SUBMISSION') {
+                        if (getSavedSession() === 'ADMIN') loadDashboardData(true, true);
+                    }
+                };
+            }
+        } catch (e) {}
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === PENDING_ROWS_KEY || e.key === CACHE_ROWS_KEY) {
+                if (getSavedSession() === 'ADMIN') loadDashboardData(true, true);
+            }
+        });
+
+        Chart.register(ChartDataLabels);
+        Chart.defaults.font.family = "'Prompt', sans-serif";
+        Chart.defaults.set('plugins.datalabels', {
+            color: '#222', anchor: 'end', align: 'top',
+            font: { weight: 'bold', size: 11, family: 'Prompt' },
+            formatter: (value, ctx) => {
+                if (ctx.chart.config.type === 'bar') return value;
+                let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                if (value === 0) return '';
+                let percentage = sum > 0 ? (value * 100 / sum).toFixed(1) + "%" : "0%";
+                return value + '\n(' + percentage + ')';
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getEffectiveApiUrl() {
+            if (AUTH_API_URL && AUTH_API_URL.startsWith('https://script.google.com/')) return AUTH_API_URL.trim();
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const urlParamApi = params.get('api');
+                if (urlParamApi && urlParamApi.startsWith('https://script.google.com/')) {
+                    localStorage.setItem(SAVED_API_URL_KEY, urlParamApi.trim());
+                    return urlParamApi.trim();
+                }
+                const saved = localStorage.getItem(SAVED_API_URL_KEY) || '';
+                if (saved.startsWith('https://script.google.com/')) return saved;
+            } catch (e) {}
+            return '';
+        }
+
+        async function promptConfigureApiUrl() {
+            const { value: inputUrl } = await Swal.fire({
+                icon: 'info',
+                title: 'เชื่อมต่อ Google Apps Script (ครั้งแรก)',
+                html: `<div style="text-align:left; font-size:0.88rem; line-height:1.55; color:#444;">ระบบเชื่อมโยงกับชีต <b>แบบสอบถามความนิยมสุรา 2026 (การตอบกลับ)</b> (<code>gid=${FORM_RESPONSES_GID}</code>)<br><br>กรุณาวาง <b>Web App URL</b> ที่ได้จากการ Deploy ไฟล์ <code>Code.gs</code></div>`,
+                input: 'url',
+                inputPlaceholder: 'https://script.google.com/macros/s/.../exec',
+                confirmButtonText: 'บันทึก URL',
+                showCancelButton: true,
+                cancelButtonText: 'ยกเลิก',
+                confirmButtonColor: '#D4AF37'
+            });
+            if (inputUrl && inputUrl.trim().startsWith('https://script.google.com/')) {
+                try { localStorage.setItem(SAVED_API_URL_KEY, inputUrl.trim()); } catch (e) {}
+                Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ', text: 'สามารถกดใช้งานระบบได้ทันที', confirmButtonColor: '#D4AF37' });
+                return true;
+            }
+            return false;
+        }
+
+        function getTodayDateKey() {
+            return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Bangkok' });
+        }
+
+        function getOrCreateDeviceId() {
+            const fp = [navigator.platform || '', screen.width + 'x' + screen.height, Intl.DateTimeFormat().resolvedOptions().timeZone || ''].join('|');
+            try {
+                let uid = localStorage.getItem(DEVICE_UID_KEY) || sessionStorage.getItem(DEVICE_UID_KEY);
+                if (!uid) {
+                    const rand = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('dev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 12));
+                    uid = rand + '::' + btoa(unescape(encodeURIComponent(fp))).slice(0, 16);
+                }
+                try { localStorage.setItem(DEVICE_UID_KEY, uid); } catch (e) {}
+                try { sessionStorage.setItem(DEVICE_UID_KEY, uid); } catch (e) {}
+                return uid;
+            } catch (e) {
+                return 'fallback_' + btoa(unescape(encodeURIComponent(fp))).slice(0, 20);
+            }
+        }
+
+        function captureUrlParams() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const k = params.get('k') || params.get('gate') || '';
+                if (k) {
+                    sessionStorage.setItem(EVENT_GATE_STORAGE_KEY, k.trim());
+                    localStorage.setItem(EVENT_GATE_STORAGE_KEY, k.trim());
+                }
+                const apiParam = params.get('api') || '';
+                if (apiParam && apiParam.startsWith('https://script.google.com/')) {
+                    localStorage.setItem(SAVED_API_URL_KEY, apiParam.trim());
+                }
+            } catch (e) {}
+        }
+
+        function getStoredGateKey() {
+            try { return sessionStorage.getItem(EVENT_GATE_STORAGE_KEY) || localStorage.getItem(EVENT_GATE_STORAGE_KEY) || ''; } catch (e) { return ''; }
+        }
+
+        function saveSession(role) {
+            try { localStorage.setItem(ACTIVE_SESSION_KEY, role); } catch (e) {}
+            try { sessionStorage.setItem(ACTIVE_SESSION_KEY, role); } catch (e) {}
+        }
+
+        function getSavedSession() {
+            try { return sessionStorage.getItem(ACTIVE_SESSION_KEY) || localStorage.getItem(ACTIVE_SESSION_KEY) || ''; } catch (e) { return ''; }
+        }
+
+        function clearSavedSession() {
+            try { localStorage.removeItem(ACTIVE_SESSION_KEY); } catch (e) {}
+            try { sessionStorage.removeItem(ACTIVE_SESSION_KEY); } catch (e) {}
+            try { sessionStorage.removeItem(ACTIVE_AUTH_PAYLOAD_KEY); } catch (e) {}
+            try { localStorage.removeItem(ACTIVE_AUTH_PAYLOAD_KEY); } catch (e) {}
+        }
+
+        function saveTesterAuthPayload(phone, token) {
+            const payload = JSON.stringify({ phone, token, dateKey: getTodayDateKey() });
+            try { sessionStorage.setItem(ACTIVE_AUTH_PAYLOAD_KEY, payload); } catch (e) {}
+            try { localStorage.setItem(ACTIVE_AUTH_PAYLOAD_KEY, payload); } catch (e) {}
+        }
+
+        function getTesterAuthPayload() {
+            try {
+                const raw = sessionStorage.getItem(ACTIVE_AUTH_PAYLOAD_KEY) || localStorage.getItem(ACTIVE_AUTH_PAYLOAD_KEY);
+                if (!raw) return null;
+                const parsed = JSON.parse(raw);
+                return (parsed && parsed.dateKey === getTodayDateKey() && parsed.phone && parsed.token) ? parsed : null;
+            } catch (e) { return null; }
+        }
+
+        function hasDeviceSubmitted() {
+            const today = getTodayDateKey();
+            try {
+                if (localStorage.getItem(SUBMITTED_DATE_KEY) === today || sessionStorage.getItem(SUBMITTED_DATE_KEY) === today) return true;
+                if (document.cookie && document.cookie.split(';').some(c => c.trim() === `${SUBMITTED_DATE_KEY}=${today}`)) return true;
+            } catch (e) {}
+            return false;
+        }
+
+        function markDeviceSubmitted() {
+            const today = getTodayDateKey();
+            try { localStorage.setItem(SUBMITTED_DATE_KEY, today); } catch (e) {}
+            try { sessionStorage.setItem(SUBMITTED_DATE_KEY, today); } catch (e) {}
+            try { document.cookie = `${SUBMITTED_DATE_KEY}=${today}; max-age=86400; path=/; SameSite=Lax`; } catch (e) {}
+        }
+
+        async function callAuthApi(payload) {
+            const apiUrl = getEffectiveApiUrl();
+            if (!apiUrl) throw new Error('MISSING_API_URL');
+            const resp = await fetchWithTimeout(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            }, 18000);
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            return await resp.json();
+        }
+
+        async function requestOneTimeCode() {
+            if (isRequestingOtp) return;
+            if (hasDeviceSubmitted()) {
+                Swal.fire({ icon: 'warning', title: 'วันนี้ท่านได้ทำแบบสอบถามไปแล้ว', text: 'สงวนสิทธิ์การทำแบบสอบถาม 1 ครั้งต่อวันเท่านั้น', confirmButtonColor: '#D4AF37' });
+                return;
+            }
+            if (!getEffectiveApiUrl()) { await promptConfigureApiUrl(); return; }
+
+            const phoneEl = document.getElementById('userPhone');
+            const phone = (phoneEl.value || '').replace(/\D/g, '');
+            if (!/^0[689]\d{8}$/.test(phone)) {
+                Swal.fire({ icon: 'warning', title: 'เบอร์โทรศัพท์ไม่ถูกต้อง', text: 'กรุณากรอกเบอร์มือถือ 10 หลัก (ขึ้นต้นด้วย 06, 08 หรือ 09)', confirmButtonColor: '#D4AF37' });
+                phoneEl.focus();
+                return;
+            }
+
+            isRequestingOtp = true;
+            const btn = document.getElementById('btnRequestOtp');
+            if (btn) btn.disabled = true;
+            Swal.fire({ title: 'กำลังออกรหัสเข้าทำแบบทดสอบ...', text: 'กำลังตรวจสอบสิทธิ์ประจำวัน', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            try {
+                const res = await callAuthApi({ action: 'request_otp', phone: phone, deviceId: getOrCreateDeviceId(), gateKey: getStoredGateKey() });
+                Swal.close();
+                if (!res.ok) {
+                    Swal.fire({ icon: 'error', title: 'ไม่สามารถออกรหัสได้', text: res.message || 'กรุณาตรวจสอบข้อมูลอีกครั้ง', confirmButtonColor: '#D4AF37' });
+                    return;
+                }
+                const banner = document.getElementById('otpDisplayBanner');
+                const codeText = document.getElementById('otpIssuedText');
+                const expNote = document.getElementById('otpExpireNote');
+                if (banner && codeText) {
+                    codeText.textContent = res.otpCode;
+                    banner.classList.remove('hidden');
+                    banner.classList.add('fade-in');
+                }
+                if (expNote) expNote.textContent = `*รหัสมีอายุ ${res.expiresInMinutes || 30} นาที ผูกกับเบอร์และเครื่องนี้เท่านั้น (ห้ามส่งต่อ)`;
+
+                await Swal.fire({
+                    icon: 'success',
+                    title: res.reused ? 'รหัสเดิมของท่านที่ยังใช้งานได้' : 'ได้รับรหัสเข้าทดสอบแล้ว!',
+                    html: `<div style="margin:8px 0;font-size:0.95rem;color:#555;">รหัสผ่านครั้งเดียวสำหรับเบอร์ <b>${escapeHtml(phone)}</b> คือ</div><div style="font-size:2.2rem;font-weight:700;letter-spacing:6px;color:#B8860B;background:#fffdf2;border:2px dashed #D4AF37;border-radius:12px;padding:10px;margin:10px 0;">${escapeHtml(res.otpCode)}</div><div style="font-size:0.82rem;color:#777;">นำรหัส 6 หลักนี้กรอกในช่องที่ 2 เพื่อเข้าสู่แบบสอบถาม<br>(รหัสใช้ได้เฉพาะบนมือถือเครื่องนี้เท่านั้น)</div>`,
+                    confirmButtonText: 'กรอกใส่ช่องรหัสอัตโนมัติ',
+                    showCancelButton: true,
+                    cancelButtonText: 'พิมพ์รหัสเอง',
+                    confirmButtonColor: '#D4AF37'
+                }).then((choice) => {
+                    const passEl = document.getElementById('passcode');
+                    if (choice.isConfirmed && passEl) passEl.value = res.otpCode;
+                    else if (passEl) { passEl.value = ''; passEl.focus(); }
+                });
+            } catch (err) {
+                Swal.close();
+                Swal.fire('การเชื่อมต่อขัดข้อง', 'ไม่สามารถติดต่อ Google Apps Script ได้ กรุณาตรวจสอบอินเทอร์เน็ตหรือ URL ของระบบ', 'error');
+            } finally {
+                isRequestingOtp = false;
+                if (btn) btn.disabled = false;
+            }
+        }
+
+        async function checkLogin() {
+            if (hasDeviceSubmitted()) {
+                document.getElementById('passcode').value = '';
+                Swal.fire({ icon: 'warning', title: 'วันนี้เครื่องนี้ได้ทำแบบสอบถามไปแล้ว', text: 'ไม่สามารถทำแบบทดสอบซ้ำภายในวันเดียวกันได้', confirmButtonColor: '#D4AF37' });
+                return;
+            }
+            if (!getEffectiveApiUrl()) { await promptConfigureApiUrl(); return; }
+
+            const phone = (document.getElementById('userPhone').value || '').replace(/\D/g, '');
+            const code = (document.getElementById('passcode').value || '').trim().toUpperCase();
+            if (!/^0[689]\d{8}$/.test(phone)) { Swal.fire('กรุณากรอกเบอร์มือถือ', 'กรุณากรอกเบอร์โทรศัพท์มือถือ 10 หลักในช่องที่ 1 ก่อน', 'warning'); return; }
+            if (code.length !== 6) { Swal.fire('รหัสผ่านไม่ครบ', 'กรุณากรอกรหัสผ่าน 6 หลักที่ได้รับจากการลงทะเบียนเบอร์มือถือ', 'warning'); return; }
+
+            Swal.fire({ title: 'กำลังตรวจสอบรหัสผ่าน...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            try {
+                const res = await callAuthApi({ action: 'verify_otp', phone: phone, token: code, deviceId: getOrCreateDeviceId(), gateKey: getStoredGateKey() });
+                Swal.close();
+                if (!res.ok) {
+                    Swal.fire({ icon: 'error', title: 'เข้าสู่ระบบไม่สำเร็จ', text: res.message || 'รหัสผ่านไม่ถูกต้องหรือถูกใช้งานไปแล้ว', confirmButtonColor: '#D4AF37' });
+                    return;
+                }
+                saveTesterAuthPayload(phone, code);
+                saveSession('TESTER');
+                openSurveyView();
+            } catch (err) {
+                Swal.close();
+                Swal.fire('การเชื่อมต่อขัดข้อง', 'กรุณาตรวจสอบสัญญาณอินเทอร์เน็ตแล้วลองอีกครั้ง', 'error');
+            }
+        }
+
+        async function promptAdminLogin() {
+            if (!getEffectiveApiUrl()) {
+                const ok = await promptConfigureApiUrl();
+                if (!ok) return;
+            }
+            const { value: adminCode } = await Swal.fire({
+                title: 'สำหรับผู้จัดงาน (Admin)',
+                text: 'กรอกรหัสผู้ดูแลเพื่อดู Dashboard และพิมพ์ป้าย QR หน้างาน',
+                input: 'password',
+                inputPlaceholder: 'รหัสผ่านผู้ดูแลระบบ',
+                confirmButtonColor: '#D4AF37',
+                confirmButtonText: 'เข้าสู่ระบบ',
+                showCancelButton: true,
+                cancelButtonText: 'ยกเลิก'
+            });
+            if (!adminCode) return;
+
+            Swal.fire({ title: 'กำลังตรวจสอบสิทธิ์ผู้ดูแล...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            try {
+                const res = await callAuthApi({ action: 'verify_admin', passcode: adminCode.trim() });
+                Swal.close();
+                if (res.ok) {
+                    adminSessionCache = { passcode: adminCode.trim(), eventGateKey: res.eventGateKey || '', requireGateKey: Boolean(res.requireGateKey) };
+                    saveSession('ADMIN');
+                    openDashboardView();
+                } else {
+                    Swal.fire('รหัสผ่านไม่ถูกต้อง', res.message || 'กรุณาลองใหม่', 'error');
+                }
+            } catch (err) {
+                Swal.close();
+                Swal.fire('เชื่อมต่อไม่สำเร็จ', 'ไม่สามารถตรวจสอบรหัสกับเซิร์ฟเวอร์ได้', 'error');
+            }
+        }
+
+        function getCleanBaseUrl() { return window.location.origin + window.location.pathname; }
+
+        function buildParticipantScanUrl() {
+            const baseUrl = getCleanBaseUrl();
+            const params = new URLSearchParams();
+            const gateKey = adminSessionCache.eventGateKey || '';
+            if (adminSessionCache.requireGateKey && gateKey) params.set('k', gateKey);
+            if (!AUTH_API_URL.startsWith('https://script.google.com/')) {
+                const activeApi = getEffectiveApiUrl();
+                if (activeApi) params.set('api', activeApi);
+            }
+            const qs = params.toString();
+            return qs ? `${baseUrl}?${qs}` : baseUrl;
+        }
+
+        function openQrPosterModal() {
+            const targetUrl = buildParticipantScanUrl();
+            Swal.fire({
+                title: '🖨️ ป้าย QR Code สำหรับผู้เข้าร่วมสแกน',
+                width: 600,
+                html: `<div style="text-align:center;padding:10px;"><div id="qrPosterPreviewBox" style="background:#fffdf7;border:3px solid #D4AF37;border-radius:20px;padding:24px;max-width:440px;margin:0 auto;"><div style="font-size:1.6rem;font-weight:700;color:#8a6d3b;letter-spacing:1px;">BLEND285</div><div style="font-size:1rem;color:#444;margin-bottom:14px;font-weight:600;">สแกน QR Code เพื่อทำแบบทดสอบ Sensory Test</div><div id="modalQrCanvas" style="display:flex;justify-content:center;margin:14px auto;background:#fff;padding:14px;border-radius:12px;width:fit-content;border:1px solid #eee;"></div><div style="font-size:0.86rem;color:#555;line-height:1.5;margin-top:10px;">1. สแกน QR Code ด้วยกล้องโทรศัพท์มือถือ<br>2. กรอกเบอร์มือถือของท่านเพื่อกดรับรหัสผ่าน 6 หลัก<br>3. กรอกรหัสที่ได้รับเพื่อเข้าทำแบบสอบถาม</div><div style="font-size:0.72rem;color:#999;margin-top:10px;word-break:break-all;">${escapeHtml(targetUrl)}</div></div><div style="margin-top:16px;padding:12px;background:#f8f6f0;border-radius:12px;text-align:left;font-size:0.85rem;"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:#5c461c;"><input type="checkbox" id="chkRequireGate" ${adminSessionCache.requireGateKey ? 'checked' : ''} onchange="toggleEventGateMode(this.checked)"> ล็อกให้เข้าได้เฉพาะผู้ที่สแกนป้าย QR หน้างานนี้เท่านั้น</label></div></div>`,
+                showCancelButton: true,
+                confirmButtonText: '🖨️ สั่งพิมพ์ป้าย A4',
+                cancelButtonText: 'ปิดหน้าต่าง',
+                confirmButtonColor: '#D4AF37',
+                didOpen: () => {
+                    const qrContainer = document.getElementById('modalQrCanvas');
+                    if (qrContainer && window.QRCode) {
+                        qrContainer.innerHTML = '';
+                        new QRCode(qrContainer, { text: targetUrl, width: 220, height: 220, colorDark: '#1a1a1a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+                    }
+                }
+            }).then((res) => { if (res.isConfirmed) printQrPosterWindow(targetUrl); });
+        }
+
+        async function toggleEventGateMode(enabled) {
+            if (!adminSessionCache.passcode) {
+                Swal.fire('เซสชันหมดอายุ', 'กรุณาเข้าสู่ระบบผู้ดูแลใหม่อีกครั้งเพื่อเปลี่ยนการตั้งค่านี้', 'info');
+                return;
+            }
+            try {
+                const res = await callAuthApi({ action: 'update_gate_config', passcode: adminSessionCache.passcode, requireGateKey: enabled, regenerateKey: false });
+                if (res.ok) {
+                    adminSessionCache.eventGateKey = res.eventGateKey;
+                    adminSessionCache.requireGateKey = res.requireGateKey;
+                    openQrPosterModal();
+                }
+            } catch (e) { Swal.fire('Error', 'ไม่สามารถอัปเดตการตั้งค่าป้าย QR ได้', 'error'); }
+        }
+
+        function printQrPosterWindow(targetUrl) {
+            const win = window.open('', '_blank');
+            if (!win) { Swal.fire('ถูกบล็อกป๊อปอัป', 'กรุณาอนุญาต Pop-up เพื่อพิมพ์ป้าย QR Code', 'warning'); return; }
+            win.document.write(`<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>ป้ายสแกนเข้าทำแบบทดสอบ BLEND285 Sensory Test 2026</title><link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet"><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script><style>@page{size:A4 portrait;margin:15mm;}body{font-family:'Prompt',sans-serif;display:flex;align-items:center;justify-content:center;min-height:92vh;margin:0;background:#fff;}.poster{border:5px solid #D4AF37;border-radius:28px;padding:48px 40px;text-align:center;width:100%;max-width:650px;box-sizing:border-box;}.brand{font-size:3.2rem;font-weight:700;color:#8a6d3b;letter-spacing:3px;margin-bottom:6px;}.sub{font-size:1.45rem;font-weight:600;color:#333;margin-bottom:30px;}#qrBox{display:inline-block;padding:22px;border:2px solid #e5cf8e;border-radius:20px;background:#fff;margin-bottom:30px;}.steps{text-align:left;background:#fffdf5;border:1.5px solid #e6d296;border-radius:18px;padding:24px 30px;font-size:1.15rem;line-height:1.9;color:#333;}.note{margin-top:22px;font-size:0.9rem;color:#777;}</style></head><body><div class="poster"><div class="brand">BLEND285</div><div class="sub">แบบสอบถามการทดสอบสุรา (Sensory Test 2026)</div><div id="qrBox"></div><div class="steps"><b>ขั้นตอนการเข้าร่วมทดสอบ (ทำในมือถือเครื่องเดียว):</b><br>1️⃣ สแกน QR Code ด้านบนด้วยกล้องมือถือ หรือแอป LINE<br>2️⃣ กรอก <b>เบอร์โทรศัพท์มือถือ</b> แล้วกดปุ่มรับรหัสผ่าน 6 หลัก<br>3️⃣ นำรหัสที่แสดงบนหน้าจอกรอกเข้าสู่แบบสอบถามทันที</div><div class="note">*สงวนสิทธิ์ผู้เข้าร่วม 1 เบอร์ / 1 เครื่อง ต่อ 1 ครั้งภายในวันจัดงาน</div></div><script>window.onload=function(){new QRCode(document.getElementById('qrBox'),{text:${JSON.stringify(targetUrl)},width:300,height:300,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});setTimeout(function(){window.print();},600);};<\/script></body></html>`);
+            win.document.close();
+        }
+
+        function openSurveyView() {
+            if (hasDeviceSubmitted()) {
+                goHome();
+                Swal.fire({ icon: 'warning', title: 'วันนี้เครื่องนี้ได้ทำแบบสอบถามไปแล้ว', text: 'ไม่สามารถทำแบบทดสอบซ้ำภายในวันเดียวกันได้', confirmButtonColor: '#D4AF37' });
+                return;
+            }
+            const authPayload = getTesterAuthPayload();
+            if (!authPayload) { goHome(); return; }
+            const badgeEl = document.getElementById('activeTesterBadge');
+            if (badgeEl) {
+                const maskedPhone = authPayload.phone.replace(/(\d{3})\d{4}(\d{3})/, '$1-XXXX-$2');
+                badgeEl.textContent = `เบอร์ที่ยืนยันสิทธิ์: ${maskedPhone}`;
+            }
+            stopDashboardAutoRefresh();
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.add('hidden');
+            const surveyEl = document.getElementById('surveyForm');
+            surveyEl.classList.remove('hidden');
+            surveyEl.classList.add('fade-in');
+            restoreFormDraft();
+            setTimeout(setupScrollReveal, 300);
+        }
+
+        function openDashboardView() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('surveyForm').classList.add('hidden');
+            const dashEl = document.getElementById('dashboardSection');
+            dashEl.classList.remove('hidden');
+            dashEl.classList.add('fade-in');
+            loadDashboardData(false, true);
+            startDashboardAutoRefresh();
+            setTimeout(setupScrollReveal, 300);
+        }
+
+        function goHome() {
+            stopDashboardAutoRefresh();
+            clearSavedSession();
+            const passEl = document.getElementById('passcode');
+            if (passEl) passEl.value = '';
+            const bannerEl = document.getElementById('otpDisplayBanner');
+            if (bannerEl) bannerEl.classList.add('hidden');
+            document.getElementById('surveyForm').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.add('hidden');
+            const loginEl = document.getElementById('loginSection');
+            loginEl.classList.remove('hidden');
+            loginEl.classList.add('fade-in');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startDashboardAutoRefresh() {
+            stopDashboardAutoRefresh();
+            dashboardRefreshTimer = setInterval(() => {
+                if (getSavedSession() === 'ADMIN' && !document.hidden) loadDashboardData(true, false);
+            }, AUTO_REFRESH_INTERVAL_MS);
+        }
+
+        function stopDashboardAutoRefresh() {
+            if (dashboardRefreshTimer) { clearInterval(dashboardRefreshTimer); dashboardRefreshTimer = null; }
+        }
+
+        function saveFormDraft() {
+            try {
+                const draft = {
+                    q1: (document.querySelector('input[name="q1"]:checked') || {}).value || '',
+                    q2: (document.querySelector('input[name="q2"]:checked') || {}).value || '',
+                    q3: document.getElementById('q3').value || '',
+                    q4: Array.from(document.querySelectorAll('input[name="q4"]:checked')).map(el => el.value),
+                    q4_other_txt: document.getElementById('q4_other_txt').value || '',
+                    q5: document.getElementById('q5').value || '',
+                    q6_r1: (document.querySelector('input[name="q6_r1"]:checked') || {}).value || '',
+                    q6_r2: (document.querySelector('input[name="q6_r2"]:checked') || {}).value || '',
+                    q6_r3: (document.querySelector('input[name="q6_r3"]:checked') || {}).value || '',
+                    q7: document.getElementById('q7').value || '',
+                    q8: document.getElementById('q8').value || ''
+                };
+                localStorage.setItem(FORM_DRAFT_KEY, JSON.stringify(draft));
+            } catch (e) {}
+        }
+
+        function restoreFormDraft() {
+            try {
+                const raw = localStorage.getItem(FORM_DRAFT_KEY);
+                if (!raw) return;
+                const draft = JSON.parse(raw);
+                if (!draft || typeof draft !== 'object') return;
+                if (draft.q1) { const el = document.querySelector(`input[name="q1"][value="${draft.q1}"]`); if (el) el.checked = true; }
+                if (draft.q2) { const el = document.querySelector(`input[name="q2"][value="${draft.q2}"]`); if (el) el.checked = true; }
+                if (draft.q3) document.getElementById('q3').value = draft.q3;
+                if (Array.isArray(draft.q4)) {
+                    document.querySelectorAll('input[name="q4"]').forEach(chk => { chk.checked = draft.q4.includes(chk.value); });
+                }
+                const otherChk = document.getElementById('q4_other_chk');
+                const otherTxt = document.getElementById('q4_other_txt');
+                if (otherChk && otherTxt) {
+                    otherTxt.disabled = !otherChk.checked;
+                    otherTxt.value = otherChk.checked ? (draft.q4_other_txt || '') : '';
+                }
+                if (draft.q5) document.getElementById('q5').value = draft.q5;
+                if (draft.q6_r1) { const el = document.querySelector(`input[name="q6_r1"][value="${draft.q6_r1}"]`); if (el) el.checked = true; }
+                if (draft.q6_r2) { const el = document.querySelector(`input[name="q6_r2"][value="${draft.q6_r2}"]`); if (el) el.checked = true; }
+                if (draft.q6_r3) { const el = document.querySelector(`input[name="q6_r3"][value="${draft.q6_r3}"]`); if (el) el.checked = true; }
+                if (draft.q7) document.getElementById('q7').value = draft.q7;
+                if (draft.q8 !== undefined) document.getElementById('q8').value = draft.q8;
+            } catch (e) {}
+        }
+
+        function clearFormDraft() { try { localStorage.removeItem(FORM_DRAFT_KEY); } catch (e) {} }
+
+        function resetSurveyFormUI() {
+            const form = document.getElementById('surveyForm');
+            if (form) form.reset();
+            const txtBox = document.getElementById('q4_other_txt');
+            if (txtBox) { txtBox.disabled = true; txtBox.value = ''; }
+            const phoneEl = document.getElementById('userPhone');
+            if (phoneEl) phoneEl.value = '';
+            const bannerEl = document.getElementById('otpDisplayBanner');
+            if (bannerEl) bannerEl.classList.add('hidden');
+            document.querySelectorAll('.error-highlight').forEach(el => el.classList.remove('error-highlight'));
+            clearFormDraft();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            captureUrlParams();
+            getOrCreateDeviceId();
+            const surveyForm = document.getElementById('surveyForm');
+            if (surveyForm) {
+                surveyForm.addEventListener('change', saveFormDraft);
+                surveyForm.addEventListener('input', saveFormDraft);
+            }
+            const savedSession = getSavedSession();
+            if (savedSession === 'TESTER' && getTesterAuthPayload()) openSurveyView();
+            else if (savedSession === 'ADMIN') openDashboardView();
+        });
+
+        document.getElementById('q4_other_chk').addEventListener('change', function () {
+            const txtBox = document.getElementById('q4_other_txt');
+            txtBox.disabled = !this.checked;
+            if (!this.checked) txtBox.value = '';
+            else txtBox.focus();
+            saveFormDraft();
+        });
+
+        function checkGrid(radio) {
+            const val = radio.value; const name = radio.name;
+            ['q6_r1', 'q6_r2', 'q6_r3'].forEach(r => {
+                if (r !== name) {
+                    const c = document.querySelector(`input[name="${r}"][value="${val}"]`);
+                    if (c && c.checked) c.checked = false;
+                }
+            });
+            saveFormDraft();
+        }
+
+        function submitForm() {
+            if (isSubmittingForm) return;
+            if (hasDeviceSubmitted()) {
+                goHome();
+                Swal.fire({ icon: 'warning', title: 'วันนี้เครื่องนี้ได้ทำแบบสอบถามไปแล้ว', text: 'ไม่สามารถทำแบบทดสอบซ้ำภายในวันเดียวกันได้', confirmButtonColor: '#D4AF37' });
+                return;
+            }
+            const authPayload = getTesterAuthPayload();
+            if (!authPayload) {
+                goHome();
+                Swal.fire('เซสชันหมดอายุ', 'กรุณากรอกเบอร์มือถือและรหัสผ่านเพื่อเข้าทำแบบสอบถามใหม่', 'warning');
+                return;
+            }
+
+            document.querySelectorAll('.error-highlight').forEach(el => el.classList.remove('error-highlight'));
+            let missing = [];
+            let firstMissingEl = null;
+
+            if (!document.querySelector('input[name="q1"]:checked')) { missing.push('1. สถานที่'); highlight('grp_q1'); if (!firstMissingEl) firstMissingEl = 'grp_q1'; }
+            if (!document.querySelector('input[name="q2"]:checked')) { missing.push('2. เพศ'); highlight('grp_q2'); if (!firstMissingEl) firstMissingEl = 'grp_q2'; }
+            if (!document.getElementById('q3').value) { missing.push('3. อายุ'); highlight('grp_q3'); if (!firstMissingEl) firstMissingEl = 'grp_q3'; }
+
+            const q4Checked = document.querySelectorAll('input[name="q4"]:checked');
+            let hasValidQ4 = false;
+            q4Checked.forEach(el => { if (el.value !== 'อื่นๆ') hasValidQ4 = true; });
+            if (q4Checked.length === 0) {
+                missing.push('4. เครื่องดื่ม'); highlight('grp_q4'); if (!firstMissingEl) firstMissingEl = 'grp_q4';
+            } else if (!hasValidQ4 && q4Checked.length > 0) {
+                Swal.fire({ icon: 'warning', title: 'กรุณาเลือกยี่ห้อเพิ่มเติม', text: 'เลือกเครื่องดื่มหลักอย่างน้อย 1 รายการ', confirmButtonColor: '#D4AF37' });
+                return;
+            }
+
+            if (!document.getElementById('q5').value) { missing.push('5. ความถี่'); highlight('grp_q5'); if (!firstMissingEl) firstMissingEl = 'grp_q5'; }
+            const r1 = document.querySelector('input[name="q6_r1"]:checked');
+            const r2 = document.querySelector('input[name="q6_r2"]:checked');
+            const r3 = document.querySelector('input[name="q6_r3"]:checked');
+            if (!r1 || !r2 || !r3) { missing.push('6. ผลทดสอบ (เลือกให้ครบ)'); highlight('grp_q6'); if (!firstMissingEl) firstMissingEl = 'grp_q6'; }
+            if (!document.getElementById('q7').value) { missing.push('7. ความใกล้เคียง'); highlight('grp_q7'); if (!firstMissingEl) firstMissingEl = 'grp_q7'; }
+
+            if (missing.length > 0) {
+                Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบ', html: missing.join('<br>'), confirmButtonColor: '#D4AF37' })
+                    .then(() => { if (firstMissingEl) document.getElementById(firstMissingEl).scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+                return;
+            }
+
+            Swal.fire({
+                title: 'ยืนยันส่งคำตอบ?', text: "เมื่อส่งแล้วจะไม่สามารถแก้ไขหรือทำซ้ำในวันนี้ได้อีก", icon: 'question',
+                showCancelButton: true, confirmButtonColor: '#D4AF37', confirmButtonText: 'ยืนยันส่งคำตอบ', cancelButtonText: 'ตรวจสอบอีกครั้ง'
+            }).then(async (res) => {
+                if (res.isConfirmed) {
+                    if (isSubmittingForm) return;
+                    isSubmittingForm = true;
+
+                    const q1Val = document.querySelector('input[name="q1"]:checked').value;
+                    const q2Val = document.querySelector('input[name="q2"]:checked').value;
+                    const q3Val = document.getElementById('q3').value;
+                    const q5Val = document.getElementById('q5').value;
+                    const q7Val = document.getElementById('q7').value;
+
+                    let otherTextVal = '';
+                    const q4Selected = [];
+                    q4Checked.forEach(e => {
+                        if (e.value === 'อื่นๆ') otherTextVal = document.getElementById('q4_other_txt').value.trim();
+                        else q4Selected.push(e.value);
+                    });
+
+                    let finalQ8 = document.getElementById('q8').value;
+                    if (otherTextVal) finalQ8 += (finalQ8 ? '\n' : '') + '[เครื่องดื่มอื่นๆ: ' + otherTextVal + ']';
+
+                    const answersPayload = { q1: q1Val, q2: q2Val, q3: q3Val, q4: q4Selected, q5: q5Val, q6_r1: r1.value, q6_r2: r2.value, q6_r3: r3.value, q7: q7Val, q8: finalQ8 };
+                    const pendingRow = {
+                        'ประทับเวลา': new Date().toLocaleString('th-TH'),
+                        'สถานที่ทดสอบสุรา': q1Val, 'เพศ': q2Val, 'ช่วงอายุ': q3Val,
+                        'เครื่องดื่มแอลกอฮอล์ที่ท่านชอบดื่ม': q4Selected.join(', '),
+                        'ความถี่ในการดื่ม': q5Val,
+                        'ท่านชอบสุราตัวอย่างหมายเลขใด [ชอบมากที่สุด]': r1.value,
+                        'ท่านชอบสุราตัวอย่างหมายเลขใด [ชอบปานกลาง]': r2.value,
+                        'ท่านชอบสุราตัวอย่างหมายเลขใด [ชอบน้อยที่สุด]': r3.value,
+                        'สุราที่ท่านทดสอบมีตัวไหนใกล้เคียงกัน': q7Val,
+                        'ข้อเสนอแนะ(ถ้ามี)': finalQ8,
+                        '_localTs': Date.now()
+                    };
+
+                    Swal.fire({ title: 'กำลังตรวจสอบสิทธิ์และบันทึกข้อมูล...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+                    try {
+                        const submitRes = await callAuthApi({
+                            action: 'submit_survey',
+                            phone: authPayload.phone,
+                            token: authPayload.token,
+                            deviceId: getOrCreateDeviceId(),
+                            gateKey: getStoredGateKey(),
+                            answers: answersPayload
+                        });
+
+                        if (!submitRes.ok) {
+                            Swal.fire({ icon: 'error', title: 'ไม่สามารถส่งคำตอบได้', text: submitRes.message || 'สิทธิ์ของท่านถูกใช้งานไปแล้วในวันนี้', confirmButtonColor: '#D4AF37' });
+                            isSubmittingForm = false;
+                            return;
+                        }
+
+                        try { localStorage.setItem('submission_timestamp', Date.now().toString()); } catch (e) {}
+                        markDeviceSubmitted();
+                        savePendingRow(pendingRow);
+                        if (sensoryChannel) { try { sensoryChannel.postMessage({ type: 'NEW_SUBMISSION', ts: Date.now() }); } catch (e) {} }
+
+                        resetSurveyFormUI();
+                        goHome();
+                        Swal.fire({ icon: 'success', title: 'ส่งแบบสอบถามสำเร็จ', text: 'ขอบคุณที่ร่วมทดสอบ ระบบได้บันทึกผลเข้าสู่ตารางการตอบกลับ 2026 เรียบร้อยแล้ว', confirmButtonColor: '#D4AF37' });
+                    } catch (err) {
+                        Swal.fire('Error', 'เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณากดส่งอีกครั้ง', 'error');
+                    } finally {
+                        isSubmittingForm = false;
+                    }
+                }
+            });
+        }
+
+        function highlight(id) { document.getElementById(id).classList.add('error-highlight'); }
+
+        function savePendingRow(row) {
+            try {
+                const now = Date.now();
+                const list = JSON.parse(localStorage.getItem(PENDING_ROWS_KEY) || '[]').filter(item => item && item._localTs && (now - item._localTs <= PENDING_TTL_MS));
+                list.push(row);
+                localStorage.setItem(PENDING_ROWS_KEY, JSON.stringify(list));
+            } catch (e) {}
+        }
+
+        function extractRowFields(row) {
+            const fields = { timestamp: '', place: '', gender: '', age: '', drinks: '', freq: '', r1: '', r2: '', r3: '', similar: '', comment: '' };
+            if (!row || typeof row !== 'object') return fields;
+            for (const key in row) {
+                if (key === '_localTs') continue;
+                const rawVal = row[key];
+                if (rawVal === undefined || rawVal === null) continue;
+                const val = String(rawVal).trim();
+                if (!val) continue;
+                const lowerKey = key.toLowerCase();
+                if (lowerKey.includes('timestamp') || key.includes('ประทับเวลา')) fields.timestamp = val;
+                else if (key.includes('สถานที่')) fields.place = val;
+                else if (key.includes('เพศ')) fields.gender = val;
+                else if (key.includes('ช่วงอายุ') || key.includes('อายุ')) fields.age = val;
+                else if (key.includes('นิยมดื่ม') || key.includes('เครื่องดื่ม')) fields.drinks = val;
+                else if (key.includes('ความถี่')) fields.freq = val;
+                else if (key.includes('ชอบมากที่สุด')) fields.r1 = val;
+                else if (key.includes('ชอบปานกลาง')) fields.r2 = val;
+                else if (key.includes('ชอบน้อยที่สุด')) fields.r3 = val;
+                else if (key.includes('ใกล้เคียง')) fields.similar = val;
+                else if (key.includes('ข้อเสนอแนะ')) fields.comment = val;
+            }
+            return fields;
+        }
+
+        function isValidResponseRow(row) {
+            const f = extractRowFields(row);
+            return Boolean(f.place || f.gender || f.r1);
+        }
+
+        function getRowSignature(row) {
+            const f = extractRowFields(row);
+            const drinksNorm = f.drinks.split(',').map(s => s.trim()).filter(Boolean).sort().join('|');
+            return JSON.stringify([f.place, f.gender, f.age, drinksNorm, f.freq, f.r1, f.r2, f.r3, f.similar, f.comment]);
+        }
+
+        function computeDatasetSignature(rows) {
+            if (!Array.isArray(rows)) return '0';
+            return rows.length + '::' + rows.map(r => {
+                const f = extractRowFields(r);
+                return `${f.timestamp}|${f.place}|${f.gender}|${f.age}|${f.drinks}|${f.freq}|${f.r1}|${f.r2}|${f.r3}|${f.similar}|${f.comment}`;
+            }).join(';;');
+        }
+
+        function mergePendingRows(remoteRows) {
+            let pending = [];
+            try {
+                const now = Date.now();
+                pending = JSON.parse(localStorage.getItem(PENDING_ROWS_KEY) || '[]').filter(item => item && item._localTs && (now - item._localTs <= PENDING_TTL_MS));
+            } catch (e) { return remoteRows; }
+            if (pending.length === 0) return remoteRows;
+
+            const remoteMeta = remoteRows.map(r => {
+                const f = extractRowFields(r);
+                const parsedTs = f.timestamp ? Date.parse(f.timestamp) : NaN;
+                return { sig: getRowSignature(r), ts: parsedTs, used: false };
+            });
+
+            const remainingPending = [];
+            pending.forEach(p => {
+                const pSig = getRowSignature(p);
+                const match = remoteMeta.find(m => !m.used && m.sig === pSig && (!Number.isNaN(m.ts) ? Math.abs(m.ts - p._localTs) <= 15 * 60 * 1000 : true));
+                if (match) match.used = true;
+                else remainingPending.push(p);
+            });
+
+            try { localStorage.setItem(PENDING_ROWS_KEY, JSON.stringify(remainingPending)); } catch (e) {}
+            return remoteRows.concat(remainingPending);
+        }
+
+        async function fetchWithTimeout(url, options, timeoutMs) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), timeoutMs);
+            try { return await fetch(url, Object.assign({}, options, { signal: controller.signal })); }
+            finally { clearTimeout(timer); }
+        }
+
+        function isValidCsvText(text) {
+            const trimmed = (text || '').trim();
+            return trimmed.length > 0 && !trimmed.startsWith('<');
+        }
+
+        async function fetchRemoteResponseRows() {
+            const apiUrl = getEffectiveApiUrl();
+            if (apiUrl) {
+                const res = await callAuthApi({ action: 'get_dashboard_data' });
+                if (res && res.ok && Array.isArray(res.rows)) return res.rows.filter(isValidResponseRow);
+            }
+            const bustUrl = RAW_CSV_URL + '&t=' + Date.now();
+            const resp = await fetchWithTimeout(bustUrl, { cache: 'no-store' }, 10000);
+            if (resp.ok) {
+                const text = await resp.text();
+                if (isValidCsvText(text)) {
+                    const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+                    return (parsed.data || []).filter(isValidResponseRow);
+                }
+            }
+            throw new Error('Unable to fetch Google Sheet data');
+        }
+
+        function updateLastUpdatedLabel(suffix) {
+            const el = document.getElementById('lastUpdatedText');
+            if (!el) return;
+            const timeStr = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            el.innerText = `(อัปเดตล่าสุด: ${timeStr}${suffix ? ' ' + suffix : ''})`;
+        }
+
+        async function loadDashboardData(silent = false, forceRender = false) {
+            if (isDashboardLoading && silent) return;
+            isDashboardLoading = true;
+            if (!silent) Swal.fire({ title: 'กำลังประมวลผลข้อมูลจากตารางการตอบกลับ 2026...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            try {
+                const remoteRows = await fetchRemoteResponseRows();
+                try { localStorage.setItem(CACHE_ROWS_KEY, JSON.stringify(remoteRows)); } catch (e) {}
+                const mergedRows = mergePendingRows(remoteRows);
+                const newSig = computeDatasetSignature(mergedRows);
+
+                if (!silent) Swal.close();
+                if (forceRender || !silent || newSig !== lastDataSignature) {
+                    rawDashboardData = mergedRows;
+                    lastDataSignature = newSig;
+                    updateLastUpdatedLabel('');
+                    updateDashboardState();
+                }
+                if (!silent && rawDashboardData.length === 0) {
+                    Swal.fire('Info', 'ยังไม่พบข้อมูลผู้ตอบแบบสอบถามในตารางการตอบกลับ 2026', 'info');
+                }
+            } catch (err) {
+                let cachedRows = [];
+                try { cachedRows = JSON.parse(localStorage.getItem(CACHE_ROWS_KEY) || '[]'); } catch (e) {}
+                const merged = mergePendingRows(cachedRows);
+                const newSig = computeDatasetSignature(merged);
+                if (!silent) Swal.close();
+                if (merged.length > 0) {
+                    if (forceRender || !silent || newSig !== lastDataSignature) {
+                        rawDashboardData = merged;
+                        lastDataSignature = newSig;
+                        updateLastUpdatedLabel('- ข้อมูลแคช');
+                        updateDashboardState();
+                    }
+                } else {
+                    rawDashboardData = [];
+                    updateDashboardState();
+                    if (!silent) Swal.fire('Error', 'ไม่สามารถดึงข้อมูลจากตารางการตอบกลับได้ กรุณาตรวจสอบว่า Deploy Code.gs เรียบร้อยแล้ว', 'error');
+                }
+            } finally {
+                isDashboardLoading = false;
+            }
+        }
+
+        function updateDashboardState() {
+            const filteredData = rawDashboardData.filter(row => {
+                const f = extractRowFields(row);
+                for (const key in activeFilters) {
+                    const filterVal = activeFilters[key];
+                    if (key === 'place' && f.place !== filterVal) return false;
+                    if (key === 'gender' && f.gender !== filterVal) return false;
+                    if (key === 'age' && f.age !== filterVal) return false;
+                    if (key === 'freq' && f.freq !== filterVal) return false;
+                    if (key === 'similar' && f.similar !== filterVal) return false;
+                    if (key === 'q6_r1' && f.r1 !== filterVal) return false;
+                }
+                return true;
+            });
+
+            lastFilteredData = filteredData;
+            renderFilterTags();
+            processMetricsAndCharts(filteredData);
+            renderRespondentTable(filteredData);
+        }
+
+        function toggleFilter(key, val) {
+            if (activeFilters[key] === val) delete activeFilters[key];
+            else activeFilters[key] = val;
+            updateDashboardState();
+        }
+
+        function renderFilterTags() {
+            const container = document.getElementById('activeFilters');
+            if (!container) return;
+            const labelsMap = { place: 'สถานที่', gender: 'เพศ', age: 'อายุ', freq: 'ความถี่', similar: 'ความใกล้เคียง', q6_r1: 'ชอบมากที่สุด' };
+            const keys = Object.keys(activeFilters);
+            if (keys.length === 0) { container.innerHTML = ''; return; }
+            container.innerHTML = keys.map(k => `<span class="filter-tag" onclick="toggleFilter('${k}', '${escapeHtml(activeFilters[k])}')">🔍 ${labelsMap[k] || k}: <b>${escapeHtml(activeFilters[k])}</b> ✕</span>`).join('') +
+                `<span class="filter-tag" style="background:#ffecec;border-color:#ff8a8a;color:#c62828;" onclick="activeFilters={};updateDashboardState();">ล้างตัวกรองทั้งหมด</span>`;
+        }
+
+        function processMetricsAndCharts(data) {
+            document.getElementById('totalCount').innerText = data.length;
+
+            let blendCount = 0;
+            const placeCounts = {};
+            const genderCounts = { 'ชาย': 0, 'หญิง': 0 };
+            const ageCounts = { '23-29': 0, '30-37': 0, '38-45': 0, 'มากกว่า 45': 0 };
+            const drinkCounts = {};
+            const freqCounts = { 'ทุกวัน': 0, '2-4วัน/ครั้ง': 0, 'สัปดาห์/ครั้ง': 0, 'นานๆ/ครั้ง': 0 };
+            const simCounts = { '512-524': 0, '512-536': 0, '524-536': 0, 'ใกล้เคียงกันทั้งหมด': 0 };
+
+            const samples = ['512', '524', '536'];
+            const q6All = { r1: { '512': 0, '524': 0, '536': 0 }, r2: { '512': 0, '524': 0, '536': 0 }, r3: { '512': 0, '524': 0, '536': 0 } };
+            const q6Blend = { r1: { '512': 0, '524': 0, '536': 0 }, r2: { '512': 0, '524': 0, '536': 0 }, r3: { '512': 0, '524': 0, '536': 0 } };
+
+            data.forEach(row => {
+                const f = extractRowFields(row);
+                if (f.place) placeCounts[f.place] = (placeCounts[f.place] || 0) + 1;
+                if (f.gender) genderCounts[f.gender] = (genderCounts[f.gender] || 0) + 1;
+                if (f.age) ageCounts[f.age] = (ageCounts[f.age] || 0) + 1;
+                if (f.freq) freqCounts[f.freq] = (freqCounts[f.freq] || 0) + 1;
+                if (f.similar) simCounts[f.similar] = (simCounts[f.similar] || 0) + 1;
+
+                let isBlend285 = false;
+                if (f.drinks) {
+                    f.drinks.split(',').map(s => s.trim()).filter(Boolean).forEach(d => {
+                        drinkCounts[d] = (drinkCounts[d] || 0) + 1;
+                        if (d.toUpperCase().includes('BLEND285')) isBlend285 = true;
+                    });
+                }
+                if (isBlend285) blendCount++;
+
+                if (samples.includes(f.r1)) { q6All.r1[f.r1]++; if (isBlend285) q6Blend.r1[f.r1]++; }
+                if (samples.includes(f.r2)) { q6All.r2[f.r2]++; if (isBlend285) q6Blend.r2[f.r2]++; }
+                if (samples.includes(f.r3)) { q6All.r3[f.r3]++; if (isBlend285) q6Blend.r3[f.r3]++; }
+            });
+
+            document.getElementById('blendDrinkerCount').innerText = blendCount;
+
+            renderPieOrDoughnut('chartQ1', 'doughnut', Object.keys(placeCounts), Object.values(placeCounts), ['#D4AF37', '#8a6d3b', '#c59b27'], 'place');
+            renderPieOrDoughnut('chartQ2', 'pie', Object.keys(genderCounts), Object.values(genderCounts), ['#3b82f6', '#ec4899'], 'gender');
+            renderSingleBar('chartQ3', Object.keys(ageCounts), Object.values(ageCounts), '#D4AF37', 'age');
+            renderTopDrinksTable(drinkCounts, data.length);
+            renderSingleBar('chartQ5', Object.keys(freqCounts), Object.values(freqCounts), '#B8860B', 'freq');
+            renderPieOrDoughnut('chartQ7', 'doughnut', Object.keys(simCounts), Object.values(simCounts), ['#f59e0b', '#10b981', '#6366f1', '#8b5cf6'], 'similar');
+            renderGroupedBar('chartQ6', samples, q6All, true);
+            renderGroupedBar('chartQ6_Filtered', samples, q6Blend, false);
+        }
+
+        function renderPieOrDoughnut(canvasId, type, labels, values, colors, filterKey) {
+            if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            chartInstances[canvasId] = new Chart(ctx, {
+                type: type,
+                data: { labels: labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    onClick: (evt, els) => { if (els.length > 0 && filterKey) toggleFilter(filterKey, labels[els[0].index]); },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { family: 'Prompt', size: 11 } } },
+                        datalabels: { anchor: 'center', align: 'center', color: '#fff', font: { weight: 'bold', size: 11, family: 'Prompt' } }
+                    }
+                }
+            });
+        }
+
+        function renderSingleBar(canvasId, labels, values, color, filterKey) {
+            if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            chartInstances[canvasId] = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: labels, datasets: [{ data: values, backgroundColor: color, borderRadius: 8 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    onClick: (evt, els) => { if (els.length > 0 && filterKey) toggleFilter(filterKey, labels[els[0].index]); },
+                    scales: { y: { beginAtZero: true, grace: '20%', ticks: { precision: 0 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderGroupedBar(canvasId, samples, q6Obj, clickable) {
+            if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            chartInstances[canvasId] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: samples.map(s => 'เบอร์ ' + s),
+                    datasets: [
+                        { label: 'ชอบมากที่สุด', data: samples.map(s => q6Obj.r1[s]), backgroundColor: '#D4AF37', borderRadius: 6 },
+                        { label: 'ชอบปานกลาง', data: samples.map(s => q6Obj.r2[s]), backgroundColor: '#64748b', borderRadius: 6 },
+                        { label: 'ชอบน้อยที่สุด', data: samples.map(s => q6Obj.r3[s]), backgroundColor: '#cbd5e1', borderRadius: 6 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    onClick: (evt, els) => {
+                        if (clickable && els.length > 0) toggleFilter('q6_r1', samples[els[0].index]);
+                    },
+                    scales: { y: { beginAtZero: true, grace: '20%', ticks: { precision: 0 } } },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { family: 'Prompt', size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        function renderTopDrinksTable(itemsObj, totalRespondents) {
+            const arr = Object.keys(itemsObj).map(k => [k, itemsObj[k]]).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            let html = '';
+            arr.forEach((item, idx) => {
+                const pct = totalRespondents > 0 ? ((item[1] * 100) / totalRespondents).toFixed(1) : '0.0';
+                html += `<tr><td><span class="rank-badge">${idx + 1}</span></td><td style="font-weight:500;">${escapeHtml(item[0])}</td><td style="text-align:right;font-weight:600;color:#8a6d3b;">${item[1]} (${pct}%)</td></tr>`;
+            });
+            document.getElementById('topProductTable').innerHTML = html || '<tr><td colspan="3" style="text-align:center;color:#999;padding:15px;">ยังไม่มีข้อมูล</td></tr>';
+        }
+
+        function renderRespondentTable(rows) {
+            const tbody = document.getElementById('respondentTableBody');
+            const countLbl = document.getElementById('tableRowCountLabel');
+            if (countLbl) countLbl.innerText = `ทั้งหมด ${rows.length} รายการ`;
+            if (!tbody) return;
+            if (rows.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="12" class="text-center" style="padding: 20px; color: #999;">ยังไม่มีข้อมูลผู้กรอกแบบสอบถาม</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = rows.map((r, i) => {
+                const f = extractRowFields(r);
+                return `<tr>
+                    <td>${i + 1}</td>
+                    <td>${escapeHtml(f.timestamp)}</td>
+                    <td>${escapeHtml(f.place)}</td>
+                    <td>${escapeHtml(f.gender)}</td>
+                    <td>${escapeHtml(f.age)}</td>
+                    <td>${escapeHtml(f.drinks)}</td>
+                    <td>${escapeHtml(f.freq)}</td>
+                    <td style="font-weight:700;color:#B8860B;">${escapeHtml(f.r1)}</td>
+                    <td>${escapeHtml(f.r2)}</td>
+                    <td>${escapeHtml(f.r3)}</td>
+                    <td>${escapeHtml(f.similar)}</td>
+                    <td>${escapeHtml(f.comment)}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        async function exportReportA4() {
+            Swal.fire({ title: 'กำลังสร้างไฟล์ PDF (A4)...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            try {
+                const target = document.getElementById('pdfContent');
+                const canvas = await html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, Math.min(pdfHeight, pdf.internal.pageSize.getHeight()));
+                pdf.save(`BLEND285_Sensory_Report_${getTodayDateKey()}.pdf`);
+                Swal.close();
+            } catch (e) {
+                Swal.close();
+                Swal.fire('Error', 'ไม่สามารถสร้างไฟล์ PDF ได้', 'error');
+            }
+        }
+
+        function setupScrollReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => el.classList.add('active'));
+        }
+    </script>
+</body>
+
+</html>
