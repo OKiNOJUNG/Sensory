@@ -1002,7 +1002,7 @@
             }
         }
     </style>
-</head>
+<style data-link-removed-style>a[data-link-removed],a[href*="zPythonSafez"]:not([onclick]){pointer-events:none!important;cursor:default!important;opacity:.6}</style></head>
 
 <body>
     <div class="bg-fixed"></div>
@@ -1322,13 +1322,9 @@
 
     <script>
         // ============================================================================
-        // 🔗 การเชื่อมโยงข้อมูลชุดใหม่จาก Google Form โดยตรง (พร้อมเก็บเบอร์มือถือจริง + รายงาน A4 คมชัดสูง)
-        // - Google Sheet (การตอบกลับ): https://docs.google.com/spreadsheets/d/1mbcLx8Yzu-OHAZ-PEUu4JM6tglBB6x5Z897NX41WLgk/edit?gid=1940157450#gid=1940157450
-        // - Google Form 2026: https://docs.google.com/forms/d/195SE7PHawD7X2GnoBwj4bYaijvCnAugMbmlB_SsED8w/edit
-        //
-        // 📌 สำคัญ: นำ Web App URL ที่ได้จากการกด Deploy ไฟล์ Code.gs มาวางแทนที่ใน AUTH_API_URL ด้านล่างนี้
+        // 🔗 การเชื่อมโยงข้อมูลชุดใหม่จาก Google Form โดยตรง (ฝังค่า Web App URL ถาวร ไม่ต้องถามผู้ใช้งาน)
         // ============================================================================
-        const AUTH_API_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+        const AUTH_API_URL = 'https://script.google.com/macros/s/AKfycbzSy7YxqdrrzMqtl-MNGP_0iO059Rt2Xamx3O_lTAZgIGZYoHe7IUUOZXAnmWns7PX0/exec';
 
         const SPREADSHEET_ID = '1mbcLx8Yzu-OHAZ-PEUu4JM6tglBB6x5Z897NX41WLgk';
         const FORM_RESPONSES_GID = '1940157450';
@@ -1393,38 +1389,10 @@
         });
 
         function getEffectiveApiUrl() {
-            if (AUTH_API_URL && AUTH_API_URL.startsWith('https://script.google.com/')) return AUTH_API_URL.trim();
-            try {
-                const params = new URLSearchParams(window.location.search);
-                const urlParamApi = params.get('api');
-                if (urlParamApi && urlParamApi.startsWith('https://script.google.com/')) {
-                    localStorage.setItem(SAVED_API_URL_KEY, urlParamApi.trim());
-                    return urlParamApi.trim();
-                }
-                const saved = localStorage.getItem(SAVED_API_URL_KEY) || '';
-                if (saved.startsWith('https://script.google.com/')) return saved;
-            } catch (e) {}
-            return '';
-        }
-
-        async function promptConfigureApiUrl() {
-            const { value: inputUrl } = await Swal.fire({
-                icon: 'info',
-                title: 'เชื่อมต่อ Google Apps Script (ครั้งแรก)',
-                html: `<div style="text-align:left; font-size:0.88rem; line-height:1.55; color:#444;">ระบบเชื่อมโยงกับชีต <b>แบบสอบถามความนิยมสุรา</b> (<code>gid=${FORM_RESPONSES_GID}</code>)<br><br>กรุณาวาง <b>Web App URL</b> ที่ได้จากการ Deploy ไฟล์ <code>Code.gs</code></div>`,
-                input: 'url',
-                inputPlaceholder: 'https://script.google.com/macros/s/.../exec',
-                confirmButtonText: 'บันทึก URL',
-                showCancelButton: true,
-                cancelButtonText: 'ยกเลิก',
-                confirmButtonColor: '#D4AF37'
-            });
-            if (inputUrl && inputUrl.trim().startsWith('https://script.google.com/')) {
-                try { localStorage.setItem(SAVED_API_URL_KEY, inputUrl.trim()); } catch (e) {}
-                Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ', text: 'สามารถกดใช้งานระบบได้ทันที', confirmButtonColor: '#D4AF37' });
-                return true;
-            }
-            return false;
+            const defaultUrl = AUTH_API_URL.trim();
+            try { localStorage.setItem(SAVED_API_URL_KEY, defaultUrl); } catch (e) {}
+            try { sessionStorage.setItem(SAVED_API_URL_KEY, defaultUrl); } catch (e) {}
+            return defaultUrl;
         }
 
         function getTodayDateKey() {
@@ -1455,11 +1423,8 @@
                     sessionStorage.setItem(EVENT_GATE_STORAGE_KEY, k.trim());
                     localStorage.setItem(EVENT_GATE_STORAGE_KEY, k.trim());
                 }
-                const apiParam = params.get('api') || '';
-                if (apiParam && apiParam.startsWith('https://script.google.com/')) {
-                    localStorage.setItem(SAVED_API_URL_KEY, apiParam.trim());
-                }
             } catch (e) {}
+            getEffectiveApiUrl();
         }
 
         function getStoredGateKey() {
@@ -1515,7 +1480,6 @@
 
         async function callAuthApi(payload) {
             const apiUrl = getEffectiveApiUrl();
-            if (!apiUrl) throw new Error('MISSING_API_URL');
             const resp = await fetchWithTimeout(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1531,7 +1495,6 @@
                 Swal.fire({ icon: 'warning', title: 'วันนี้ท่านได้ทำแบบสอบถามไปแล้ว', text: 'สงวนสิทธิ์การทำแบบสอบถาม 1 ครั้งต่อวันเท่านั้น', confirmButtonColor: '#D4AF37' });
                 return;
             }
-            if (!getEffectiveApiUrl()) { await promptConfigureApiUrl(); return; }
 
             const phoneEl = document.getElementById('userPhone');
             const phone = (phoneEl.value || '').replace(/\D/g, '');
@@ -1578,7 +1541,7 @@
                 });
             } catch (err) {
                 Swal.close();
-                Swal.fire('การเชื่อมต่อขัดข้อง', 'ไม่สามารถติดต่อ Google Apps Script ได้ กรุณาตรวจสอบอินเทอร์เน็ตหรือ URL ของระบบ', 'error');
+                Swal.fire('การเชื่อมต่อขัดข้อง', 'ไม่สามารถติดต่อฐานข้อมูลได้ กรุณาตรวจสอบอินเทอร์เน็ตหรือ URL ของระบบ', 'error');
             } finally {
                 isRequestingOtp = false;
                 if (btn) btn.disabled = false;
@@ -1591,7 +1554,6 @@
                 Swal.fire({ icon: 'warning', title: 'วันนี้เครื่องนี้ได้ทำแบบสอบถามไปแล้ว', text: 'ไม่สามารถทำแบบทดสอบซ้ำภายในวันเดียวกันได้', confirmButtonColor: '#D4AF37' });
                 return;
             }
-            if (!getEffectiveApiUrl()) { await promptConfigureApiUrl(); return; }
 
             const phone = (document.getElementById('userPhone').value || '').replace(/\D/g, '');
             const code = (document.getElementById('passcode').value || '').trim().toUpperCase();
@@ -1616,10 +1578,6 @@
         }
 
         async function promptAdminLogin() {
-            if (!getEffectiveApiUrl()) {
-                const ok = await promptConfigureApiUrl();
-                if (!ok) return;
-            }
             const { value: adminCode } = await Swal.fire({
                 title: 'สำหรับผู้จัดงาน (Admin)',
                 text: 'กรอกรหัสผู้ดูแลเพื่อดู Dashboard และพิมพ์ป้าย QR หน้างาน',
@@ -1656,10 +1614,6 @@
             const params = new URLSearchParams();
             const gateKey = adminSessionCache.eventGateKey || '';
             if (adminSessionCache.requireGateKey && gateKey) params.set('k', gateKey);
-            if (!AUTH_API_URL.startsWith('https://script.google.com/')) {
-                const activeApi = getEffectiveApiUrl();
-                if (activeApi) params.set('api', activeApi);
-            }
             const qs = params.toString();
             return qs ? `${baseUrl}?${qs}` : baseUrl;
         }
@@ -2438,8 +2392,6 @@
 
         // ============================================================================
         // 📥 HIGH-DEFINITION SYMMETRICAL A4 PDF REPORT GENERATOR
-        // วาดกราฟใหม่บน Dedicated Off-screen Canvas ความละเอียดสูง (3x DPI) อัตราส่วนสมมาตรตายตัว
-        // ทำให้กราฟทุกกล่องมีสัดส่วนปกติสมมาตร ไม่บี้ ไม่ยืด ไม่ว่าเปิดจากมือถือหรือคอมพิวเตอร์
         // ============================================================================
         function renderHighResChartForA4(type, dataObj, isGrouped = false) {
             const offCanvas = document.createElement('canvas');
