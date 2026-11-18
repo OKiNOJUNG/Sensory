@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BLEND285 Sensory Test 2026</title>
+    <title>Sensory Test</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless/borderless.css" rel="stylesheet">
@@ -1192,7 +1192,7 @@
         <div id="dashboardSection" class="glass-card hidden" style="max-width: 1020px; margin: 0 auto;">
             <div class="header-row">
                 <div>
-                    <h2 style="color:#B8860B; margin:0; font-size:1.75rem;">สรุปผลการทดสอบ (Sensory Test 2026)</h2>
+                    <h2 style="color:#B8860B; margin:0; font-size:1.75rem;">สรุปผลการทดสอบ(Sensory Test)</h2>
                     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:4px;">
                         <span style="color:#666; font-size:0.88rem;">Real-time Data Dashboard <span id="lastUpdatedText"></span></span>
                         <span class="auto-refresh-indicator">
@@ -1411,7 +1411,7 @@
             const { value: inputUrl } = await Swal.fire({
                 icon: 'info',
                 title: 'เชื่อมต่อ Google Apps Script (ครั้งแรก)',
-                html: `<div style="text-align:left; font-size:0.88rem; line-height:1.55; color:#444;">ระบบเชื่อมโยงกับชีต <b>แบบสอบถามความนิยมสุรา 2026 (การตอบกลับ)</b> (<code>gid=${FORM_RESPONSES_GID}</code>)<br><br>กรุณาวาง <b>Web App URL</b> ที่ได้จากการ Deploy ไฟล์ <code>Code.gs</code></div>`,
+                html: `<div style="text-align:left; font-size:0.88rem; line-height:1.55; color:#444;">ระบบเชื่อมโยงกับชีต <b>แบบสอบถามความนิยมสุรา</b> (<code>gid=${FORM_RESPONSES_GID}</code>)<br><br>กรุณาวาง <b>Web App URL</b> ที่ได้จากการ Deploy ไฟล์ <code>Code.gs</code></div>`,
                 input: 'url',
                 inputPlaceholder: 'https://script.google.com/macros/s/.../exec',
                 confirmButtonText: 'บันทึก URL',
@@ -1669,7 +1669,7 @@
             Swal.fire({
                 title: '🖨️ ป้าย QR Code สำหรับผู้เข้าร่วมสแกน',
                 width: 600,
-                html: `<div style="text-align:center;padding:10px;"><div id="qrPosterPreviewBox" style="background:#fffdf7;border:3px solid #D4AF37;border-radius:20px;padding:24px;max-width:440px;margin:0 auto;"><div style="font-size:1.6rem;font-weight:700;color:#8a6d3b;letter-spacing:1px;">BLEND285</div><div style="font-size:1rem;color:#444;margin-bottom:14px;font-weight:600;">สแกน QR Code เพื่อทำแบบทดสอบ Sensory Test 2026</div><div id="modalQrCanvas" style="display:flex;justify-content:center;margin:14px auto;background:#fff;padding:14px;border-radius:12px;width:fit-content;border:1px solid #eee;"></div><div style="font-size:0.86rem;color:#555;line-height:1.5;margin-top:10px;">1. สแกน QR Code ด้วยกล้องโทรศัพท์มือถือ<br>2. กรอกเบอร์มือถือของท่านเพื่อกดรับรหัสผ่าน 6 หลัก<br>3. กรอกรหัสที่ได้รับเพื่อเข้าทำแบบสอบถาม (1 สิทธิ์/วัน)</div><div style="font-size:0.72rem;color:#999;margin-top:10px;word-break:break-all;">${escapeHtml(targetUrl)}</div></div><div style="margin-top:16px;padding:12px;background:#f8f6f0;border-radius:12px;text-align:left;font-size:0.85rem;"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:#5c461c;"><input type="checkbox" id="chkRequireGate" ${adminSessionCache.requireGateKey ? 'checked' : ''} onchange="toggleEventGateMode(this.checked)"> ล็อกให้เข้าได้เฉพาะผู้ที่สแกนป้าย QR หน้างานนี้เท่านั้น</label></div></div>`,
+                html: `<div style="text-align:center;padding:10px;"><div id="qrPosterPreviewBox" style="background:#fffdf7;border:3px solid #D4AF37;border-radius:20px;padding:24px;max-width:440px;margin:0 auto;"><div style="font-size:1.6rem;font-weight:700;color:#8a6d3b;letter-spacing:1px;">BLEND285</div><div style="font-size:1rem;color:#444;margin-bottom:14px;font-weight:600;">สแกน QR Code เพื่อทำแบบทดสอบ Sensory Test</div><div id="modalQrCanvas" style="display:flex;justify-content:center;margin:14px auto;background:#fff;padding:14px;border-radius:12px;width:fit-content;border:1px solid #eee;"></div><div style="font-size:0.86rem;color:#555;line-height:1.5;margin-top:10px;">1. สแกน QR Code ด้วยกล้องโทรศัพท์มือถือ<br>2. กรอกเบอร์มือถือของท่านเพื่อกดรับรหัสผ่าน 6 หลัก<br>3. กรอกรหัสที่ได้รับเพื่อเข้าทำแบบสอบถาม (1 สิทธิ์/วัน)</div><div style="font-size:0.72rem;color:#999;margin-top:10px;word-break:break-all;">${escapeHtml(targetUrl)}</div></div><div style="margin-top:16px;padding:12px;background:#f8f6f0;border-radius:12px;text-align:left;font-size:0.85rem;"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:#5c461c;"><input type="checkbox" id="chkRequireGate" ${adminSessionCache.requireGateKey ? 'checked' : ''} onchange="toggleEventGateMode(this.checked)"> ล็อกให้เข้าได้เฉพาะผู้ที่สแกนป้าย QR หน้างานนี้เท่านั้น</label></div></div>`,
                 showCancelButton: true,
                 confirmButtonText: '🖨️ สั่งพิมพ์ป้าย A4',
                 cancelButtonText: 'ปิดหน้าต่าง',
@@ -1702,7 +1702,7 @@
         function printQrPosterWindow(targetUrl) {
             const win = window.open('', '_blank');
             if (!win) { Swal.fire('ถูกบล็อกป๊อปอัป', 'กรุณาอนุญาต Pop-up เพื่อพิมพ์ป้าย QR Code', 'warning'); return; }
-            win.document.write(`<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>ป้ายสแกนเข้าทำแบบทดสอบ BLEND285 Sensory Test 2026</title><link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet"><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script><style>@page{size:A4 portrait;margin:15mm;}body{font-family:'Prompt',sans-serif;display:flex;align-items:center;justify-content:center;min-height:92vh;margin:0;background:#fff;}.poster{border:5px solid #D4AF37;border-radius:28px;padding:48px 40px;text-align:center;width:100%;max-width:650px;box-sizing:border-box;}.brand{font-size:3.2rem;font-weight:700;color:#8a6d3b;letter-spacing:3px;margin-bottom:6px;}.sub{font-size:1.45rem;font-weight:600;color:#333;margin-bottom:30px;}#qrBox{display:inline-block;padding:22px;border:2px solid #e5cf8e;border-radius:20px;background:#fff;margin-bottom:30px;}.steps{text-align:left;background:#fffdf5;border:1.5px solid #e6d296;border-radius:18px;padding:24px 30px;font-size:1.15rem;line-height:1.9;color:#333;}.note{margin-top:22px;font-size:0.9rem;color:#777;}</style></head><body><div class="poster"><div class="brand">BLEND285</div><div class="sub">แบบสอบถามการทดสอบสุรา (Sensory Test 2026)</div><div id="qrBox"></div><div class="steps"><b>ขั้นตอนการเข้าร่วมทดสอบ (ทำในมือถือเครื่องเดียว):</b><br>1️⃣ สแกน QR Code ด้านบนด้วยกล้องมือถือ หรือแอป LINE<br>2️⃣ กรอก <b>เบอร์โทรศัพท์มือถือ</b> แล้วกดปุ่มรับรหัสผ่าน 6 หลัก<br>3️⃣ นำรหัสที่แสดงบนหน้าจอกรอกเข้าสู่แบบสอบถามทันที</div><div class="note">*สงวนสิทธิ์ผู้เข้าร่วม 1 เบอร์ / 1 เครื่อง ต่อ 1 ครั้งภายในวันจัดงาน</div></div><script>window.onload=function(){new QRCode(document.getElementById('qrBox'),{text:${JSON.stringify(targetUrl)},width:300,height:300,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});setTimeout(function(){window.print();},600);};<\/script></body></html>`);
+            win.document.write(`<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><title>ป้ายสแกนเข้าทำแบบทดสอบ BLEND285 Sensory Test</title><link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet"><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script><style>@page{size:A4 portrait;margin:15mm;}body{font-family:'Prompt',sans-serif;display:flex;align-items:center;justify-content:center;min-height:92vh;margin:0;background:#fff;}.poster{border:5px solid #D4AF37;border-radius:28px;padding:48px 40px;text-align:center;width:100%;max-width:650px;box-sizing:border-box;}.brand{font-size:3.2rem;font-weight:700;color:#8a6d3b;letter-spacing:3px;margin-bottom:6px;}.sub{font-size:1.45rem;font-weight:600;color:#333;margin-bottom:30px;}#qrBox{display:inline-block;padding:22px;border:2px solid #e5cf8e;border-radius:20px;background:#fff;margin-bottom:30px;}.steps{text-align:left;background:#fffdf5;border:1.5px solid #e6d296;border-radius:18px;padding:24px 30px;font-size:1.15rem;line-height:1.9;color:#333;}.note{margin-top:22px;font-size:0.9rem;color:#777;}</style></head><body><div class="poster"><div class="brand">BLEND285</div><div class="sub">แบบสอบถามการทดสอบสุรา (Sensory Test)</div><div id="qrBox"></div><div class="steps"><b>ขั้นตอนการเข้าร่วมทดสอบ (ทำในมือถือเครื่องเดียว):</b><br>1️⃣ สแกน QR Code ด้านบนด้วยกล้องมือถือ หรือแอป LINE<br>2️⃣ กรอก <b>เบอร์โทรศัพท์มือถือ</b> แล้วกดปุ่มรับรหัสผ่าน 6 หลัก<br>3️⃣ นำรหัสที่แสดงบนหน้าจอกรอกเข้าสู่แบบสอบถามทันที</div><div class="note">*สงวนสิทธิ์ผู้เข้าร่วม 1 เบอร์ / 1 เครื่อง ต่อ 1 ครั้งภายในวันจัดงาน</div></div><script>window.onload=function(){new QRCode(document.getElementById('qrBox'),{text:${JSON.stringify(targetUrl)},width:300,height:300,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});setTimeout(function(){window.print();},600);};<\/script></body></html>`);
             win.document.close();
         }
 
@@ -2123,7 +2123,7 @@
                     updateDashboardState();
                 }
                 if (!silent && rawDashboardData.length === 0) {
-                    Swal.fire('Info', 'ยังไม่พบข้อมูลผู้ตอบแบบสอบถามในตารางการตอบกลับ 2026', 'info');
+                    Swal.fire('Info', 'ยังไม่พบข้อมูลผู้ตอบแบบสอบถามในฐานข้อมูล', 'info');
                 }
             } catch (err) {
                 let cachedRows = [];
@@ -2593,7 +2593,7 @@
                         <div>
                             <h1>BLEND285 SENSORY TEST REPORT</h1>
                             <div style="font-size:0.88rem; color:#555; margin-top:2px;">
-                                สรุปผลการทดสอบสุรา (ครบทุกกราฟ สัดส่วนสมมาตร) ${filterText ? ' | ตัวกรอง: ' + escapeHtml(filterText) : ''}
+                                สรุปผลการทดสอบสุรา ${filterText ? ' | ตัวกรอง: ' + escapeHtml(filterText) : ''}
                             </div>
                         </div>
                         <div class="a4-meta">
