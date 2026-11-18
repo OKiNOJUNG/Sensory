@@ -188,7 +188,7 @@
         }
 
         .fade-in {
-            animation: fadeIn 0.45s ease forwards;
+            animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         @keyframes fadeIn {
@@ -207,9 +207,9 @@
         }
 
         @keyframes floatCard {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
+            0% { transform: translatey(0px); }
+            50% { transform: translatey(-12px); }
+            100% { transform: translatey(0px); }
         }
 
         /* --- Self-Service Phone + One-Time Code Styles --- */
@@ -586,7 +586,7 @@
             margin-bottom: 14px;
         }
 
-        .filter-tag {
+        .filter-badge {
             background: #fff8e1;
             border: 1px solid #d4af37;
             color: #8a6d3b;
@@ -597,6 +597,7 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
+            font-weight: 500;
         }
 
         .stat-grid {
@@ -693,22 +694,34 @@
             font-weight: 600;
         }
 
-        .rank-badge {
-            display: inline-flex;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #D4AF37;
-            color: #fff;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.78rem;
+        .rank-num {
+            display: inline-block;
+            background: #f5ecd0;
+            color: #8a6d3b;
             font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .progress-bg {
+            width: 100%;
+            height: 6px;
+            background: #f2ece1;
+            border-radius: 4px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #D4AF37, #B8860B);
+            border-radius: 4px;
         }
 
         .respondent-table-section {
-            margin-top: 26px;
-            padding-top: 20px;
+            margin-top: 28px;
+            padding-top: 22px;
             border-top: 2px dashed #e6d8ad;
         }
 
@@ -733,33 +746,250 @@
         .respondent-data-table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
             font-size: 0.8rem;
         }
 
         .respondent-data-table th,
         .respondent-data-table td {
-            border: 1px solid #e6dec5;
-            padding: 7px 8px;
-            text-align: left;
+            border: 1px solid #dcdcdc;
+            padding: 8px 6px;
             vertical-align: top;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+            white-space: normal;
+            line-height: 1.4;
         }
 
-        .respondent-data-table th {
-            background: #fbf4df;
-            color: #6d5323;
+        .respondent-data-table thead th {
+            background: linear-gradient(180deg, #faf3dd 0%, #f2e4b8 100%);
+            color: #5c461c;
             font-weight: 600;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .respondent-data-table th:nth-child(13),
+        .respondent-data-table td:nth-child(13),
+        .a4-report-table th:nth-child(13),
+        .a4-report-table td:nth-child(13) {
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            word-break: break-word !important;
+            white-space: pre-wrap !important;
         }
 
         .respondent-data-table tbody tr:nth-child(even) {
-            background: #fffdf8;
+            background-color: #fcfbf7;
         }
 
+        .respondent-data-table tbody tr:hover {
+            background-color: #fff8e1;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .badge-sample {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            background: #f5ecd0;
+            color: #6d5322;
+        }
+
+        /* --- Off-screen A4 Print/Export Staging Area (High-Res Symmetrical Layout) --- */
         #a4ExportStage {
             position: fixed;
             left: -99999px;
             top: 0;
-            width: 1122px;
             z-index: -999;
+            background: #fff;
+        }
+
+        .a4-page {
+            width: 1120px;
+            min-height: 1584px;
+            height: 1584px;
+            background: #ffffff;
+            padding: 36px 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-family: 'Prompt', sans-serif;
+            color: #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .a4-page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 3px solid #D4AF37;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .a4-page-header h1 {
+            font-size: 1.55rem;
+            color: #8a6d3b;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .a4-page-header .a4-meta {
+            text-align: right;
+            font-size: 0.82rem;
+            color: #666;
+        }
+
+        .a4-kpi-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .a4-kpi-card {
+            background: #fffdf7;
+            border: 1.5px solid #e3cf96;
+            border-radius: 12px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .a4-kpi-card .kpi-label {
+            font-size: 0.98rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .a4-kpi-card .kpi-val {
+            font-size: 1.85rem;
+            color: #B8860B;
+            font-weight: 700;
+        }
+
+        .a4-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-rows: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .a4-chart-card {
+            border: 1.5px solid #e0d8c0;
+            border-radius: 14px;
+            padding: 12px 16px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .a4-chart-card.highlight-card {
+            border: 2px solid #D4AF37;
+            background: #fffdf6;
+        }
+
+        .a4-chart-title {
+            font-size: 0.94rem;
+            font-weight: 600;
+            color: #2c2210;
+            border-left: 4px solid #D4AF37;
+            padding-left: 9px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+            line-height: 1.3;
+        }
+
+        .a4-chart-img-wrap {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 2px 4px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .a4-chart-img-wrap img {
+            width: auto !important;
+            height: auto !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important;
+            object-position: center center !important;
+            display: block;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .a4-page-footer {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.76rem;
+            color: #888;
+            flex-shrink: 0;
+        }
+
+        .a4-table-wrap {
+            flex: 1;
+            width: 100%;
+            overflow: visible;
+        }
+
+        .a4-report-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 11px;
+            color: #1f1f1f;
+        }
+
+        .a4-report-table th,
+        .a4-report-table td {
+            border: 1px solid #bdbdbd;
+            padding: 6px 5px;
+            vertical-align: top;
+            word-wrap: break-word;
+            overflow-wrap: anywhere;
+            white-space: normal;
+            line-height: 1.35;
+        }
+
+        .a4-report-table thead th {
+            background: #f4e8c1;
+            color: #4a3814;
+            font-weight: 700;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 11px;
+        }
+
+        .a4-report-table tbody tr:nth-child(even) {
+            background: #faf8f2;
         }
 
         @media (max-width: 768px) {
@@ -784,13 +1014,12 @@
         <div id="loginSection" class="glass-card float-anim"
             style="margin-top: 5vh; max-width: 520px; margin-left: auto; margin-right: auto;">
             <div class="logo-text">BLEND285</div>
-            <p class="sub-logo" style="margin-bottom: 22px;">ระบบบันทึกผลการทดสอบน้ำสุรา</p>
+            <p class="sub-logo" style="margin-bottom: 22px;">ระบบบันทึกผลการทดสอบสุรา Sensory Test</p>
 
-            <!-- ขั้นตอนที่ 1: กรอกเบอร์มือถือและกดรับรหัสครั้งเดียว -->
             <div class="step-box">
                 <div class="step-label">
                     <span class="step-num-badge">1</span>
-                    <span>ลงทะเบียนเบอร์มือถือเพื่อรับรหัสผ่าน</span>
+                    <span>ลงทะเบียนเบอร์มือถือเพื่อรับรหัสผ่านเข้าแบบทดสอบ</span>
                 </div>
                 <input type="tel" id="userPhone" class="phone-input" placeholder="08X-XXX-XXXX" maxlength="10"
                     inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)"
@@ -808,7 +1037,6 @@
                 </div>
             </div>
 
-            <!-- ขั้นตอนที่ 2: กรอกรหัส 6 หลักที่ได้รับเพื่อเข้าทำแบบสอบถาม -->
             <div class="step-box" id="step2Box">
                 <div class="step-label">
                     <span class="step-num-badge">2</span>
@@ -1060,23 +1288,24 @@
                         <table class="respondent-data-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 4%;">#</th>
-                                    <th style="width: 11%;">วัน-เวลา</th>
-                                    <th style="width: 13%;">1. สถานที่ทดสอบ</th>
-                                    <th style="width: 6%;">2. เพศ</th>
-                                    <th style="width: 8%;">3. ช่วงอายุ</th>
-                                    <th style="width: 14%;">4. เครื่องดื่มที่นิยม</th>
-                                    <th style="width: 9%;">5. ความถี่</th>
-                                    <th style="width: 6%;">6. ชอบมากที่สุด</th>
-                                    <th style="width: 6%;">6. ชอบปานกลาง</th>
-                                    <th style="width: 6%;">6. ชอบน้อยที่สุด</th>
+                                    <th style="width: 3.5%;">#</th>
+                                    <th style="width: 9.5%;">วัน-เวลา</th>
+                                    <th style="width: 9%;">เบอร์โทรศัพท์</th>
+                                    <th style="width: 11.5%;">1. สถานที่ทดสอบ</th>
+                                    <th style="width: 5%;">2. เพศ</th>
+                                    <th style="width: 7%;">3. ช่วงอายุ</th>
+                                    <th style="width: 13%;">4. เครื่องดื่มที่นิยม</th>
+                                    <th style="width: 8%;">5. ความถี่</th>
+                                    <th style="width: 5.5%;">6. ชอบมากที่สุด</th>
+                                    <th style="width: 5.5%;">6. ชอบปานกลาง</th>
+                                    <th style="width: 5.5%;">6. ชอบน้อยที่สุด</th>
                                     <th style="width: 8%;">7. ความใกล้เคียง</th>
                                     <th style="width: 9%;">8. ข้อเสนอแนะ</th>
                                 </tr>
                             </thead>
                             <tbody id="respondentTableBody">
                                 <tr>
-                                    <td colspan="12" class="text-center" style="padding: 20px; color: #999;">กำลังโหลดข้อมูล...</td>
+                                    <td colspan="13" class="text-center" style="padding: 20px; color: #999;">กำลังโหลดข้อมูล...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1093,12 +1322,13 @@
 
     <script>
         // ============================================================================
-        // 🔗 การเชื่อมโยงข้อมูลชุดใหม่จาก Google Form โดยตรง
+        // 🔗 การเชื่อมโยงข้อมูลชุดใหม่จาก Google Form โดยตรง (พร้อมเก็บเบอร์มือถือจริง + รายงาน A4 คมชัดสูง)
         // - Google Sheet (การตอบกลับ): https://docs.google.com/spreadsheets/d/1mbcLx8Yzu-OHAZ-PEUu4JM6tglBB6x5Z897NX41WLgk/edit?gid=1940157450#gid=1940157450
         // - Google Form 2026: https://docs.google.com/forms/d/195SE7PHawD7X2GnoBwj4bYaijvCnAugMbmlB_SsED8w/edit
+        //
         // 📌 สำคัญ: นำ Web App URL ที่ได้จากการกด Deploy ไฟล์ Code.gs มาวางแทนที่ใน AUTH_API_URL ด้านล่างนี้
         // ============================================================================
-        const AUTH_API_URL = 'https://script.google.com/macros/s/AKfycbzSy7YxqdrrzMqtl-MNGP_0iO059Rt2Xamx3O_lTAZgIGZYoHe7IUUOZXAnmWns7PX0/exec';
+        const AUTH_API_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
 
         const SPREADSHEET_ID = '1mbcLx8Yzu-OHAZ-PEUu4JM6tglBB6x5Z897NX41WLgk';
         const FORM_RESPONSES_GID = '1940157450';
@@ -1122,6 +1352,7 @@
         let lastFilteredData = [];
         let activeFilters = {};
         let chartInstances = {};
+        let lastChartCounts = null;
         let dashboardRefreshTimer = null;
         let isDashboardLoading = false;
         let lastDataSignature = '';
@@ -1160,15 +1391,6 @@
                 return value + '\n(' + percentage + ')';
             }
         });
-
-        function escapeHtml(str) {
-            return String(str || '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
 
         function getEffectiveApiUrl() {
             if (AUTH_API_URL && AUTH_API_URL.startsWith('https://script.google.com/')) return AUTH_API_URL.trim();
@@ -1447,7 +1669,7 @@
             Swal.fire({
                 title: '🖨️ ป้าย QR Code สำหรับผู้เข้าร่วมสแกน',
                 width: 600,
-                html: `<div style="text-align:center;padding:10px;"><div id="qrPosterPreviewBox" style="background:#fffdf7;border:3px solid #D4AF37;border-radius:20px;padding:24px;max-width:440px;margin:0 auto;"><div style="font-size:1.6rem;font-weight:700;color:#8a6d3b;letter-spacing:1px;">BLEND285</div><div style="font-size:1rem;color:#444;margin-bottom:14px;font-weight:600;">สแกน QR Code เพื่อทำแบบทดสอบ Sensory Test</div><div id="modalQrCanvas" style="display:flex;justify-content:center;margin:14px auto;background:#fff;padding:14px;border-radius:12px;width:fit-content;border:1px solid #eee;"></div><div style="font-size:0.86rem;color:#555;line-height:1.5;margin-top:10px;">1. สแกน QR Code ด้วยกล้องโทรศัพท์มือถือ<br>2. กรอกเบอร์มือถือของท่านเพื่อกดรับรหัสผ่าน 6 หลัก<br>3. กรอกรหัสที่ได้รับเพื่อเข้าทำแบบสอบถาม</div><div style="font-size:0.72rem;color:#999;margin-top:10px;word-break:break-all;">${escapeHtml(targetUrl)}</div></div><div style="margin-top:16px;padding:12px;background:#f8f6f0;border-radius:12px;text-align:left;font-size:0.85rem;"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:#5c461c;"><input type="checkbox" id="chkRequireGate" ${adminSessionCache.requireGateKey ? 'checked' : ''} onchange="toggleEventGateMode(this.checked)"> ล็อกให้เข้าได้เฉพาะผู้ที่สแกนป้าย QR หน้างานนี้เท่านั้น</label></div></div>`,
+                html: `<div style="text-align:center;padding:10px;"><div id="qrPosterPreviewBox" style="background:#fffdf7;border:3px solid #D4AF37;border-radius:20px;padding:24px;max-width:440px;margin:0 auto;"><div style="font-size:1.6rem;font-weight:700;color:#8a6d3b;letter-spacing:1px;">BLEND285</div><div style="font-size:1rem;color:#444;margin-bottom:14px;font-weight:600;">สแกน QR Code เพื่อทำแบบทดสอบ Sensory Test 2026</div><div id="modalQrCanvas" style="display:flex;justify-content:center;margin:14px auto;background:#fff;padding:14px;border-radius:12px;width:fit-content;border:1px solid #eee;"></div><div style="font-size:0.86rem;color:#555;line-height:1.5;margin-top:10px;">1. สแกน QR Code ด้วยกล้องโทรศัพท์มือถือ<br>2. กรอกเบอร์มือถือของท่านเพื่อกดรับรหัสผ่าน 6 หลัก<br>3. กรอกรหัสที่ได้รับเพื่อเข้าทำแบบสอบถาม (1 สิทธิ์/วัน)</div><div style="font-size:0.72rem;color:#999;margin-top:10px;word-break:break-all;">${escapeHtml(targetUrl)}</div></div><div style="margin-top:16px;padding:12px;background:#f8f6f0;border-radius:12px;text-align:left;font-size:0.85rem;"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:#5c461c;"><input type="checkbox" id="chkRequireGate" ${adminSessionCache.requireGateKey ? 'checked' : ''} onchange="toggleEventGateMode(this.checked)"> ล็อกให้เข้าได้เฉพาะผู้ที่สแกนป้าย QR หน้างานนี้เท่านั้น</label></div></div>`,
                 showCancelButton: true,
                 confirmButtonText: '🖨️ สั่งพิมพ์ป้าย A4',
                 cancelButtonText: 'ปิดหน้าต่าง',
@@ -1494,8 +1716,7 @@
             if (!authPayload) { goHome(); return; }
             const badgeEl = document.getElementById('activeTesterBadge');
             if (badgeEl) {
-                const maskedPhone = authPayload.phone.replace(/(\d{3})\d{4}(\d{3})/, '$1-XXXX-$2');
-                badgeEl.textContent = `เบอร์ที่ยืนยันสิทธิ์: ${maskedPhone}`;
+                badgeEl.textContent = `เบอร์ที่ยืนยันสิทธิ์: ${authPayload.phone}`;
             }
             stopDashboardAutoRefresh();
             document.getElementById('loginSection').classList.add('hidden');
@@ -1706,9 +1927,14 @@
                     let finalQ8 = document.getElementById('q8').value;
                     if (otherTextVal) finalQ8 += (finalQ8 ? '\n' : '') + '[เครื่องดื่มอื่นๆ: ' + otherTextVal + ']';
 
-                    const answersPayload = { q1: q1Val, q2: q2Val, q3: q3Val, q4: q4Selected, q5: q5Val, q6_r1: r1.value, q6_r2: r2.value, q6_r3: r3.value, q7: q7Val, q8: finalQ8 };
+                    const answersPayload = {
+                        phone: authPayload.phone,
+                        q1: q1Val, q2: q2Val, q3: q3Val, q4: q4Selected, q5: q5Val,
+                        q6_r1: r1.value, q6_r2: r2.value, q6_r3: r3.value, q7: q7Val, q8: finalQ8
+                    };
                     const pendingRow = {
                         'ประทับเวลา': new Date().toLocaleString('th-TH'),
+                        'เบอร์โทรศัพท์': authPayload.phone,
                         'สถานที่ทดสอบสุรา': q1Val, 'เพศ': q2Val, 'ช่วงอายุ': q3Val,
                         'เครื่องดื่มแอลกอฮอล์ที่ท่านชอบดื่ม': q4Selected.join(', '),
                         'ความถี่ในการดื่ม': q5Val,
@@ -1745,7 +1971,7 @@
 
                         resetSurveyFormUI();
                         goHome();
-                        Swal.fire({ icon: 'success', title: 'ส่งแบบสอบถามสำเร็จ', text: 'ขอบคุณที่ร่วมทดสอบ ระบบได้บันทึกผลเข้าสู่ตารางการตอบกลับ 2026 เรียบร้อยแล้ว', confirmButtonColor: '#D4AF37' });
+                        Swal.fire({ icon: 'success', title: 'ส่งแบบสอบถามสำเร็จ', text: 'ขอบคุณที่ร่วมทดสอบ ระบบได้บันทึกผลเรียบร้อยแล้ว', confirmButtonColor: '#D4AF37' });
                     } catch (err) {
                         Swal.fire('Error', 'เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณากดส่งอีกครั้ง', 'error');
                     } finally {
@@ -1767,7 +1993,7 @@
         }
 
         function extractRowFields(row) {
-            const fields = { timestamp: '', place: '', gender: '', age: '', drinks: '', freq: '', r1: '', r2: '', r3: '', similar: '', comment: '' };
+            const fields = { timestamp: '', phone: '', place: '', gender: '', age: '', drinks: '', freq: '', r1: '', r2: '', r3: '', similar: '', comment: '' };
             if (!row || typeof row !== 'object') return fields;
             for (const key in row) {
                 if (key === '_localTs') continue;
@@ -1777,6 +2003,11 @@
                 if (!val) continue;
                 const lowerKey = key.toLowerCase();
                 if (lowerKey.includes('timestamp') || key.includes('ประทับเวลา')) fields.timestamp = val;
+                else if (key.includes('เบอร์โทร') || lowerKey.includes('phone') || key.includes('มือถือ')) {
+                    let digits = val.replace(/\D/g, '');
+                    if (digits.length === 9 && /^[689]/.test(digits)) digits = '0' + digits;
+                    fields.phone = digits || val.replace(/^'/, '');
+                }
                 else if (key.includes('สถานที่')) fields.place = val;
                 else if (key.includes('เพศ')) fields.gender = val;
                 else if (key.includes('ช่วงอายุ') || key.includes('อายุ')) fields.age = val;
@@ -1806,7 +2037,7 @@
             if (!Array.isArray(rows)) return '0';
             return rows.length + '::' + rows.map(r => {
                 const f = extractRowFields(r);
-                return `${f.timestamp}|${f.place}|${f.gender}|${f.age}|${f.drinks}|${f.freq}|${f.r1}|${f.r2}|${f.r3}|${f.similar}|${f.comment}`;
+                return `${f.timestamp}|${f.phone}|${f.place}|${f.gender}|${f.age}|${f.drinks}|${f.freq}|${f.r1}|${f.r2}|${f.r3}|${f.similar}|${f.comment}`;
             }).join(';;');
         }
 
@@ -1876,7 +2107,7 @@
         async function loadDashboardData(silent = false, forceRender = false) {
             if (isDashboardLoading && silent) return;
             isDashboardLoading = true;
-            if (!silent) Swal.fire({ title: 'กำลังประมวลผลข้อมูลจากตารางการตอบกลับ 2026...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            if (!silent) Swal.fire({ title: 'กำลังประมวลผลข้อมูล', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
             try {
                 const remoteRows = await fetchRemoteResponseRows();
@@ -1922,208 +2153,714 @@
                 const f = extractRowFields(row);
                 for (const key in activeFilters) {
                     const filterVal = activeFilters[key];
-                    if (key === 'place' && f.place !== filterVal) return false;
-                    if (key === 'gender' && f.gender !== filterVal) return false;
-                    if (key === 'age' && f.age !== filterVal) return false;
-                    if (key === 'freq' && f.freq !== filterVal) return false;
-                    if (key === 'similar' && f.similar !== filterVal) return false;
-                    if (key === 'q6_r1' && f.r1 !== filterVal) return false;
+                    if (!filterVal) continue;
+                    if (key === 'q1' && f.place !== filterVal) return false;
+                    else if (key === 'q2' && f.gender !== filterVal) return false;
+                    else if (key === 'q3' && f.age !== filterVal) return false;
+                    else if (key === 'q5' && f.freq !== filterVal) return false;
+                    else if (key === 'q7' && f.similar !== filterVal) return false;
+                    else if (key === 'q6') {
+                        const parts = filterVal.split(': ');
+                        const rankLabel = parts[0];
+                        const sampleNum = parts[1];
+                        if (rankLabel === 'ชอบมากที่สุด' && f.r1 !== sampleNum) return false;
+                        if (rankLabel === 'ชอบปานกลาง' && f.r2 !== sampleNum) return false;
+                        if (rankLabel === 'ชอบน้อยที่สุด' && f.r3 !== sampleNum) return false;
+                    }
                 }
                 return true;
             });
 
             lastFilteredData = filteredData;
-            renderFilterTags();
-            processMetricsAndCharts(filteredData);
+
+            let counts = {
+                total: filteredData.length,
+                blendDrinker: 0,
+                q1: {}, q2: {}, q3: {}, q4_items: {}, q5: {}, q7: {},
+                q6: { '512': [0, 0, 0], '524': [0, 0, 0], '536': [0, 0, 0] },
+                q6_filtered: { '512': [0, 0, 0], '524': [0, 0, 0], '536': [0, 0, 0] }
+            };
+
+            filteredData.forEach(row => {
+                const f = extractRowFields(row);
+                let isBlend285 = false;
+
+                if (f.drinks) {
+                    f.drinks.split(',').forEach(s => {
+                        const item = s.trim();
+                        if (!item) return;
+                        count(counts.q4_items, item);
+                        if (item.includes('BLEND285')) isBlend285 = true;
+                    });
+                }
+
+                count(counts.q1, f.place);
+                count(counts.q2, f.gender);
+                count(counts.q3, f.age);
+                count(counts.q5, f.freq);
+                count(counts.q7, f.similar);
+
+                updateQ6(counts, f.r1, 0, isBlend285);
+                updateQ6(counts, f.r2, 1, isBlend285);
+                updateQ6(counts, f.r3, 2, isBlend285);
+
+                if (isBlend285) counts.blendDrinker++;
+            });
+
+            lastChartCounts = counts;
+
+            document.getElementById('totalCount').innerText = counts.total;
+            document.getElementById('blendDrinkerCount').innerText = counts.blendDrinker;
+            updateFilterBadges();
+
+            updateChart('chartQ1', 'pie', counts.q1, 'q1');
+            updateChart('chartQ2', 'doughnut', counts.q2, 'q2');
+            updateChart('chartQ3', 'bar', counts.q3, 'q3');
+            updateChart('chartQ5', 'bar', counts.q5, 'q5');
+            updateChart('chartQ7', 'pie', counts.q7, 'q7');
+            updateGroupedBar('chartQ6', counts.q6);
+            updateGroupedBar('chartQ6_Filtered', counts.q6_filtered);
+            renderTop5List(counts.q4_items, counts.total);
             renderRespondentTable(filteredData);
         }
 
-        function toggleFilter(key, val) {
-            if (activeFilters[key] === val) delete activeFilters[key];
-            else activeFilters[key] = val;
+        function count(obj, k) { if (k) obj[k] = (obj[k] || 0) + 1; }
+        function updateQ6(c, v, i, f) { if (c.q6[v]) c.q6[v][i]++; if (f && c.q6_filtered[v]) c.q6_filtered[v][i]++; }
+
+        function updateFilterBadges() {
+            const container = document.getElementById('activeFilters');
+            container.innerHTML = '';
+            Object.keys(activeFilters).forEach(key => {
+                if (activeFilters[key]) {
+                    const badge = document.createElement('div');
+                    badge.className = 'filter-badge';
+                    badge.onclick = () => toggleFilter(key, null);
+                    const labelSpan = document.createElement('span');
+                    labelSpan.textContent = activeFilters[key];
+                    badge.appendChild(labelSpan);
+                    badge.appendChild(document.createTextNode(' ×'));
+                    container.appendChild(badge);
+                }
+            });
+        }
+
+        function toggleFilter(filterKey, value) {
+            activeFilters[filterKey] = activeFilters[filterKey] === value ? null : value;
             updateDashboardState();
         }
 
-        function renderFilterTags() {
-            const container = document.getElementById('activeFilters');
-            if (!container) return;
-            const labelsMap = { place: 'สถานที่', gender: 'เพศ', age: 'อายุ', freq: 'ความถี่', similar: 'ความใกล้เคียง', q6_r1: 'ชอบมากที่สุด' };
-            const keys = Object.keys(activeFilters);
-            if (keys.length === 0) { container.innerHTML = ''; return; }
-            container.innerHTML = keys.map(k => `<span class="filter-tag" onclick="toggleFilter('${k}', '${escapeHtml(activeFilters[k])}')">🔍 ${labelsMap[k] || k}: <b>${escapeHtml(activeFilters[k])}</b> ✕</span>`).join('') +
-                `<span class="filter-tag" style="background:#ffecec;border-color:#ff8a8a;color:#c62828;" onclick="activeFilters={};updateDashboardState();">ล้างตัวกรองทั้งหมด</span>`;
+        function createGoldGradient(ctx, type) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+            if (type === 'warm') { gradient.addColorStop(0, '#FDB931'); gradient.addColorStop(1, '#D4AF37'); }
+            else if (type === 'light') { gradient.addColorStop(0, '#FFF394'); gradient.addColorStop(1, '#E6D27A'); }
+            else if (type === 'dark') { gradient.addColorStop(0, '#BF953F'); gradient.addColorStop(1, '#8a6d3b'); }
+            return gradient;
         }
 
-        function processMetricsAndCharts(data) {
-            document.getElementById('totalCount').innerText = data.length;
+        function updateChart(id, type, dataObj, filterKey) {
+            const labels = Object.keys(dataObj);
+            const data = Object.values(dataObj);
 
-            let blendCount = 0;
-            const placeCounts = {};
-            const genderCounts = { 'ชาย': 0, 'หญิง': 0 };
-            const ageCounts = { '23-29': 0, '30-37': 0, '38-45': 0, 'มากกว่า 45': 0 };
-            const drinkCounts = {};
-            const freqCounts = { 'ทุกวัน': 0, '2-4วัน/ครั้ง': 0, 'สัปดาห์/ครั้ง': 0, 'นานๆ/ครั้ง': 0 };
-            const simCounts = { '512-524': 0, '512-536': 0, '524-536': 0, 'ใกล้เคียงกันทั้งหมด': 0 };
-
-            const samples = ['512', '524', '536'];
-            const q6All = { r1: { '512': 0, '524': 0, '536': 0 }, r2: { '512': 0, '524': 0, '536': 0 }, r3: { '512': 0, '524': 0, '536': 0 } };
-            const q6Blend = { r1: { '512': 0, '524': 0, '536': 0 }, r2: { '512': 0, '524': 0, '536': 0 }, r3: { '512': 0, '524': 0, '536': 0 } };
-
-            data.forEach(row => {
-                const f = extractRowFields(row);
-                if (f.place) placeCounts[f.place] = (placeCounts[f.place] || 0) + 1;
-                if (f.gender) genderCounts[f.gender] = (genderCounts[f.gender] || 0) + 1;
-                if (f.age) ageCounts[f.age] = (ageCounts[f.age] || 0) + 1;
-                if (f.freq) freqCounts[f.freq] = (freqCounts[f.freq] || 0) + 1;
-                if (f.similar) simCounts[f.similar] = (simCounts[f.similar] || 0) + 1;
-
-                let isBlend285 = false;
-                if (f.drinks) {
-                    f.drinks.split(',').map(s => s.trim()).filter(Boolean).forEach(d => {
-                        drinkCounts[d] = (drinkCounts[d] || 0) + 1;
-                        if (d.toUpperCase().includes('BLEND285')) isBlend285 = true;
-                    });
-                }
-                if (isBlend285) blendCount++;
-
-                if (samples.includes(f.r1)) { q6All.r1[f.r1]++; if (isBlend285) q6Blend.r1[f.r1]++; }
-                if (samples.includes(f.r2)) { q6All.r2[f.r2]++; if (isBlend285) q6Blend.r2[f.r2]++; }
-                if (samples.includes(f.r3)) { q6All.r3[f.r3]++; if (isBlend285) q6Blend.r3[f.r3]++; }
-            });
-
-            document.getElementById('blendDrinkerCount').innerText = blendCount;
-
-            renderPieOrDoughnut('chartQ1', 'doughnut', Object.keys(placeCounts), Object.values(placeCounts), ['#D4AF37', '#8a6d3b', '#c59b27'], 'place');
-            renderPieOrDoughnut('chartQ2', 'pie', Object.keys(genderCounts), Object.values(genderCounts), ['#3b82f6', '#ec4899'], 'gender');
-            renderSingleBar('chartQ3', Object.keys(ageCounts), Object.values(ageCounts), '#D4AF37', 'age');
-            renderTopDrinksTable(drinkCounts, data.length);
-            renderSingleBar('chartQ5', Object.keys(freqCounts), Object.values(freqCounts), '#B8860B', 'freq');
-            renderPieOrDoughnut('chartQ7', 'doughnut', Object.keys(simCounts), Object.values(simCounts), ['#f59e0b', '#10b981', '#6366f1', '#8b5cf6'], 'similar');
-            renderGroupedBar('chartQ6', samples, q6All, true);
-            renderGroupedBar('chartQ6_Filtered', samples, q6Blend, false);
-        }
-
-        function renderPieOrDoughnut(canvasId, type, labels, values, colors, filterKey) {
-            if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
-            const ctx = document.getElementById(canvasId);
-            if (!ctx) return;
-            chartInstances[canvasId] = new Chart(ctx, {
-                type: type,
-                data: { labels: labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    onClick: (evt, els) => { if (els.length > 0 && filterKey) toggleFilter(filterKey, labels[els[0].index]); },
-                    plugins: {
-                        legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { family: 'Prompt', size: 11 } } },
-                        datalabels: { anchor: 'center', align: 'center', color: '#fff', font: { weight: 'bold', size: 11, family: 'Prompt' } }
-                    }
-                }
-            });
-        }
-
-        function renderSingleBar(canvasId, labels, values, color, filterKey) {
-            if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
-            const ctx = document.getElementById(canvasId);
-            if (!ctx) return;
-            chartInstances[canvasId] = new Chart(ctx, {
-                type: 'bar',
-                data: { labels: labels, datasets: [{ data: values, backgroundColor: color, borderRadius: 8 }] },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    onClick: (evt, els) => { if (els.length > 0 && filterKey) toggleFilter(filterKey, labels[els[0].index]); },
-                    scales: { y: { beginAtZero: true, grace: '20%', ticks: { precision: 0 } } },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-
-        function renderGroupedBar(canvasId, samples, q6Obj, clickable) {
-            if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
-            const ctx = document.getElementById(canvasId);
-            if (!ctx) return;
-            chartInstances[canvasId] = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: samples.map(s => 'เบอร์ ' + s),
-                    datasets: [
-                        { label: 'ชอบมากที่สุด', data: samples.map(s => q6Obj.r1[s]), backgroundColor: '#D4AF37', borderRadius: 6 },
-                        { label: 'ชอบปานกลาง', data: samples.map(s => q6Obj.r2[s]), backgroundColor: '#64748b', borderRadius: 6 },
-                        { label: 'ชอบน้อยที่สุด', data: samples.map(s => q6Obj.r3[s]), backgroundColor: '#cbd5e1', borderRadius: 6 }
-                    ]
+            const scalesConfig = type === 'bar' ? {
+                y: {
+                    beginAtZero: true,
+                    grace: '18%',
+                    ticks: { stepSize: 1, precision: 0, font: { family: 'Prompt', size: 11 } }
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    onClick: (evt, els) => {
-                        if (clickable && els.length > 0) toggleFilter('q6_r1', samples[els[0].index]);
-                    },
-                    scales: { y: { beginAtZero: true, grace: '20%', ticks: { precision: 0 } } },
-                    plugins: {
-                        legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, font: { family: 'Prompt', size: 11 } } }
-                    }
+                x: {
+                    ticks: { font: { family: 'Prompt', size: 11 } }
                 }
-            });
+            } : {};
+
+            const legendConfig = type === 'bar'
+                ? { display: false }
+                : { display: true, position: 'bottom', labels: { padding: 14, boxWidth: 14, font: { family: 'Prompt', size: 11 } } };
+
+            if (chartInstances[id]) {
+                chartInstances[id].data.labels = labels;
+                chartInstances[id].data.datasets[0].data = data;
+                chartInstances[id].update();
+            } else {
+                const ctx = document.getElementById(id).getContext('2d');
+                chartInstances[id] = new Chart(ctx, {
+                    type: type,
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'จำนวน',
+                            data: data,
+                            backgroundColor: ['#D4AF37', '#B8860B', '#E6C670', '#8a6d3b', '#c0c0c0'],
+                            borderWidth: 1.5,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        devicePixelRatio: 3,
+                        layout: {
+                            padding: { top: type === 'bar' ? 20 : 8, bottom: 4, left: 6, right: 6 }
+                        },
+                        scales: scalesConfig,
+                        plugins: {
+                            legend: legendConfig,
+                            datalabels: {
+                                color: '#222',
+                                anchor: type === 'bar' ? 'end' : 'center',
+                                align: type === 'bar' ? 'top' : 'center',
+                                offset: type === 'bar' ? 2 : 0,
+                                font: { weight: 'bold', size: 11, family: 'Prompt' }
+                            }
+                        },
+                        onClick: (e, elements, chart) => {
+                            if (elements[0]) toggleFilter(filterKey, chart.data.labels[elements[0].index]);
+                        }
+                    }
+                });
+            }
         }
 
-        function renderTopDrinksTable(itemsObj, totalRespondents) {
-            const arr = Object.keys(itemsObj).map(k => [k, itemsObj[k]]).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        function updateGroupedBar(id, dataObj) {
+            const ctx = document.getElementById(id).getContext('2d');
+            const grad1 = createGoldGradient(ctx, 'warm');
+            const grad2 = createGoldGradient(ctx, 'light');
+            const grad3 = createGoldGradient(ctx, 'dark');
+            const datasets = [
+                { label: '512 (ทองอุ่น)', data: dataObj['512'], backgroundColor: grad1, stack: 'stack0' },
+                { label: '524 (ทองสว่าง)', data: dataObj['524'], backgroundColor: grad2, stack: 'stack1' },
+                { label: '536 (ทองเข้ม)', data: dataObj['536'], backgroundColor: grad3, stack: 'stack2' }
+            ];
+
+            if (chartInstances[id]) {
+                chartInstances[id].data.datasets = datasets;
+                chartInstances[id].update();
+            } else {
+                chartInstances[id] = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['ชอบมากที่สุด', 'ชอบปานกลาง', 'ชอบน้อยที่สุด'],
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        devicePixelRatio: 3,
+                        layout: {
+                            padding: { top: 22, bottom: 4, left: 6, right: 6 }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grace: '18%',
+                                ticks: { stepSize: 1, precision: 0, font: { family: 'Prompt', size: 11 } }
+                            },
+                            x: {
+                                ticks: { font: { family: 'Prompt', size: 11 } }
+                            }
+                        },
+                        plugins: {
+                            legend: { position: 'bottom', labels: { padding: 14, boxWidth: 14, font: { family: 'Prompt', size: 11 } } },
+                            datalabels: { anchor: 'end', align: 'top', offset: 2, font: { weight: 'bold', size: 11, family: 'Prompt' } }
+                        },
+                        onClick: id === 'chartQ6' ? (e, elements, chart) => {
+                            if (elements[0]) {
+                                const rankLabel = chart.data.labels[elements[0].index];
+                                const datasetLabel = chart.data.datasets[elements[0].datasetIndex].label || '';
+                                const sampleNum = datasetLabel.split(' ')[0];
+                                toggleFilter('q6', `${rankLabel}: ${sampleNum}`);
+                            }
+                        } : undefined
+                    }
+                });
+            }
+        }
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function renderTop5List(itemsObj, totalPeople) {
+            let arr = Object.keys(itemsObj).map(key => [key, itemsObj[key]]).sort((a, b) => b[1] - a[1]).slice(0, 5);
             let html = '';
-            arr.forEach((item, idx) => {
-                const pct = totalRespondents > 0 ? ((item[1] * 100) / totalRespondents).toFixed(1) : '0.0';
-                html += `<tr><td><span class="rank-badge">${idx + 1}</span></td><td style="font-weight:500;">${escapeHtml(item[0])}</td><td style="text-align:right;font-weight:600;color:#8a6d3b;">${item[1]} (${pct}%)</td></tr>`;
+            arr.forEach((item, index) => {
+                let count = item[1];
+                let pct = totalPeople > 0 ? ((count / totalPeople) * 100).toFixed(1) : 0;
+                html += `<tr>
+                    <td><span class="rank-num">#${index + 1}</span></td>
+                    <td>
+                        <div style="font-weight:500;">${escapeHtml(item[0])}</div>
+                        <div class="progress-bg"><div class="progress-fill" style="width:${pct > 100 ? 100 : pct}%"></div></div>
+                    </td>
+                    <td style="text-align:right;"><b>${count}</b> <span style="font-size:0.8rem; color:#666;">(${pct}%)</span></td>
+                </tr>`;
             });
-            document.getElementById('topProductTable').innerHTML = html || '<tr><td colspan="3" style="text-align:center;color:#999;padding:15px;">ยังไม่มีข้อมูล</td></tr>';
+            document.getElementById('topProductTable').innerHTML = html || '<tr><td colspan="3" style="text-align:center; color:#999;">ไม่มีข้อมูล</td></tr>';
         }
 
         function renderRespondentTable(rows) {
             const tbody = document.getElementById('respondentTableBody');
-            const countLbl = document.getElementById('tableRowCountLabel');
-            if (countLbl) countLbl.innerText = `ทั้งหมด ${rows.length} รายการ`;
+            const countLabel = document.getElementById('tableRowCountLabel');
             if (!tbody) return;
-            if (rows.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="12" class="text-center" style="padding: 20px; color: #999;">ยังไม่มีข้อมูลผู้กรอกแบบสอบถาม</td></tr>`;
+
+            if (countLabel) {
+                countLabel.textContent = `ทั้งหมด ${rows.length} รายการ`;
+            }
+
+            if (!rows || rows.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="13" class="text-center" style="padding: 20px; color: #999;">ไม่มีข้อมูลผู้ตอบแบบสอบถาม</td></tr>`;
                 return;
             }
-            tbody.innerHTML = rows.map((r, i) => {
-                const f = extractRowFields(r);
+
+            tbody.innerHTML = rows.map((row, idx) => {
+                const f = extractRowFields(row);
                 return `<tr>
-                    <td>${i + 1}</td>
-                    <td>${escapeHtml(f.timestamp)}</td>
-                    <td>${escapeHtml(f.place)}</td>
-                    <td>${escapeHtml(f.gender)}</td>
-                    <td>${escapeHtml(f.age)}</td>
-                    <td>${escapeHtml(f.drinks)}</td>
-                    <td>${escapeHtml(f.freq)}</td>
-                    <td style="font-weight:700;color:#B8860B;">${escapeHtml(f.r1)}</td>
-                    <td>${escapeHtml(f.r2)}</td>
-                    <td>${escapeHtml(f.r3)}</td>
-                    <td>${escapeHtml(f.similar)}</td>
-                    <td>${escapeHtml(f.comment)}</td>
+                    <td class="text-center"><b>${idx + 1}</b></td>
+                    <td>${escapeHtml(f.timestamp || '-')}</td>
+                    <td class="text-center" style="font-weight:500; color:#5c461c;">${escapeHtml(f.phone || '-')}</td>
+                    <td>${escapeHtml(f.place || '-')}</td>
+                    <td class="text-center">${escapeHtml(f.gender || '-')}</td>
+                    <td class="text-center">${escapeHtml(f.age || '-')}</td>
+                    <td>${escapeHtml(f.drinks || '-')}</td>
+                    <td class="text-center">${escapeHtml(f.freq || '-')}</td>
+                    <td class="text-center"><span class="badge-sample">${escapeHtml(f.r1 || '-')}</span></td>
+                    <td class="text-center"><span class="badge-sample">${escapeHtml(f.r2 || '-')}</span></td>
+                    <td class="text-center"><span class="badge-sample">${escapeHtml(f.r3 || '-')}</span></td>
+                    <td class="text-center">${escapeHtml(f.similar || '-')}</td>
+                    <td>${escapeHtml(f.comment || '-')}</td>
                 </tr>`;
             }).join('');
         }
 
+        // ============================================================================
+        // 📥 HIGH-DEFINITION SYMMETRICAL A4 PDF REPORT GENERATOR
+        // วาดกราฟใหม่บน Dedicated Off-screen Canvas ความละเอียดสูง (3x DPI) อัตราส่วนสมมาตรตายตัว
+        // ทำให้กราฟทุกกล่องมีสัดส่วนปกติสมมาตร ไม่บี้ ไม่ยืด ไม่ว่าเปิดจากมือถือหรือคอมพิวเตอร์
+        // ============================================================================
+        function renderHighResChartForA4(type, dataObj, isGrouped = false) {
+            const offCanvas = document.createElement('canvas');
+            const targetW = 480;
+            const targetH = 250;
+            offCanvas.width = targetW;
+            offCanvas.height = targetH;
+            offCanvas.style.width = targetW + 'px';
+            offCanvas.style.height = targetH + 'px';
+
+            const ctx = offCanvas.getContext('2d');
+            let chartConfig = null;
+
+            if (!isGrouped) {
+                const labels = Object.keys(dataObj || {});
+                const data = Object.values(dataObj || {});
+                const isCircle = (type === 'pie' || type === 'doughnut');
+
+                chartConfig = {
+                    type: type,
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'จำนวน',
+                            data: data,
+                            backgroundColor: ['#D4AF37', '#B8860B', '#E6C670', '#8a6d3b', '#c0c0c0'],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: true,
+                        animation: false,
+                        devicePixelRatio: 3,
+                        layout: {
+                            padding: isCircle
+                                ? { top: 10, bottom: 6, left: 16, right: 16 }
+                                : { top: 26, bottom: 6, left: 12, right: 12 }
+                        },
+                        scales: type === 'bar' ? {
+                            y: {
+                                beginAtZero: true,
+                                grace: '22%',
+                                ticks: { stepSize: 1, precision: 0, font: { family: 'Prompt', size: 11 } }
+                            },
+                            x: {
+                                ticks: { font: { family: 'Prompt', size: 11 } }
+                            }
+                        } : {},
+                        plugins: {
+                            legend: type === 'bar'
+                                ? { display: false }
+                                : { display: true, position: 'right', labels: { padding: 12, boxWidth: 14, font: { family: 'Prompt', size: 11.5 } } },
+                            datalabels: {
+                                color: '#111',
+                                anchor: type === 'bar' ? 'end' : 'center',
+                                align: type === 'bar' ? 'top' : 'center',
+                                offset: type === 'bar' ? 2 : 0,
+                                font: { weight: 'bold', size: 11, family: 'Prompt' },
+                                formatter: (value, context) => {
+                                    if (type === 'bar') return value > 0 ? value : '';
+                                    const sum = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    if (value === 0 || sum === 0) return '';
+                                    const pct = ((value * 100) / sum).toFixed(1) + '%';
+                                    return value + '\n(' + pct + ')';
+                                }
+                            }
+                        }
+                    }
+                };
+            } else {
+                const grad1 = createGoldGradient(ctx, 'warm');
+                const grad2 = createGoldGradient(ctx, 'light');
+                const grad3 = createGoldGradient(ctx, 'dark');
+                const safeObj = dataObj || { '512': [0, 0, 0], '524': [0, 0, 0], '536': [0, 0, 0] };
+
+                chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: ['ชอบมากที่สุด', 'ชอบปานกลาง', 'ชอบน้อยที่สุด'],
+                        datasets: [
+                            { label: '512 (ทองอุ่น)', data: safeObj['512'], backgroundColor: grad1, stack: 'stack0' },
+                            { label: '524 (ทองสว่าง)', data: safeObj['524'], backgroundColor: grad2, stack: 'stack1' },
+                            { label: '536 (ทองเข้ม)', data: safeObj['536'], backgroundColor: grad3, stack: 'stack2' }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: true,
+                        animation: false,
+                        devicePixelRatio: 3,
+                        layout: {
+                            padding: { top: 26, bottom: 4, left: 10, right: 10 }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grace: '22%',
+                                ticks: { stepSize: 1, precision: 0, font: { family: 'Prompt', size: 11 } }
+                            },
+                            x: {
+                                ticks: { font: { family: 'Prompt', size: 11.5, weight: '600' } }
+                            }
+                        },
+                        plugins: {
+                            legend: { position: 'bottom', labels: { padding: 12, boxWidth: 13, font: { family: 'Prompt', size: 11 } } },
+                            datalabels: {
+                                color: '#111',
+                                anchor: 'end',
+                                align: 'top',
+                                offset: 2,
+                                font: { weight: 'bold', size: 11, family: 'Prompt' },
+                                formatter: (val) => val > 0 ? val : ''
+                            }
+                        }
+                    }
+                };
+            }
+
+            const tempChart = new Chart(ctx, chartConfig);
+            const dataUrl = offCanvas.toDataURL('image/png', 1.0);
+            tempChart.destroy();
+            return dataUrl;
+        }
+
+        function buildA4Page1Element(dateStr, filterText) {
+            const totalCount = document.getElementById('totalCount').innerText;
+            const blendCount = document.getElementById('blendDrinkerCount').innerText;
+            const topTableHtml = document.getElementById('topProductTableWrap').outerHTML;
+
+            const c = lastChartCounts || {
+                q1: {}, q2: {}, q3: {}, q5: {}, q7: {},
+                q6: { '512': [0, 0, 0], '524': [0, 0, 0], '536': [0, 0, 0] },
+                q6_filtered: { '512': [0, 0, 0], '524': [0, 0, 0], '536': [0, 0, 0] }
+            };
+
+            const imgQ1 = renderHighResChartForA4('pie', c.q1, false);
+            const imgQ2 = renderHighResChartForA4('doughnut', c.q2, false);
+            const imgQ3 = renderHighResChartForA4('bar', c.q3, false);
+            const imgQ5 = renderHighResChartForA4('bar', c.q5, false);
+            const imgQ7 = renderHighResChartForA4('pie', c.q7, false);
+            const imgQ6 = renderHighResChartForA4('bar', c.q6, true);
+            const imgQ6F = renderHighResChartForA4('bar', c.q6_filtered, true);
+
+            const page1 = document.createElement('div');
+            page1.className = 'a4-page';
+            page1.innerHTML = `
+                <div>
+                    <div class="a4-page-header">
+                        <div>
+                            <h1>BLEND285 SENSORY TEST REPORT</h1>
+                            <div style="font-size:0.88rem; color:#555; margin-top:2px;">
+                                สรุปผลการทดสอบสุรา (ครบทุกกราฟ สัดส่วนสมมาตร) ${filterText ? ' | ตัวกรอง: ' + escapeHtml(filterText) : ''}
+                            </div>
+                        </div>
+                        <div class="a4-meta">
+                            <div><b>วันที่ออกรายงาน:</b> ${escapeHtml(dateStr)}</div>
+                            <div><b>หน้าที่ 1</b> (สรุปผลกราฟทั้งหมด)</div>
+                        </div>
+                    </div>
+
+                    <div class="a4-kpi-row">
+                        <div class="a4-kpi-card">
+                            <span class="kpi-label">ผู้ตอบแบบสอบถามทั้งหมด (คน)</span>
+                            <span class="kpi-val">${escapeHtml(totalCount)}</span>
+                        </div>
+                        <div class="a4-kpi-card">
+                            <span class="kpi-label">ผู้ดื่ม BLEND285 (คน)</span>
+                            <span class="kpi-val">${escapeHtml(blendCount)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="a4-charts-grid">
+                    <div class="a4-chart-card">
+                        <div class="a4-chart-title">1. สถานที่ทดสอบ</div>
+                        <div class="a4-chart-img-wrap"><img src="${imgQ1}" alt="Chart Q1"></div>
+                    </div>
+                    <div class="a4-chart-card">
+                        <div class="a4-chart-title">2. เพศ</div>
+                        <div class="a4-chart-img-wrap"><img src="${imgQ2}" alt="Chart Q2"></div>
+                    </div>
+                    <div class="a4-chart-card">
+                        <div class="a4-chart-title">3. ช่วงอายุ</div>
+                        <div class="a4-chart-img-wrap"><img src="${imgQ3}" alt="Chart Q3"></div>
+                    </div>
+                    <div class="a4-chart-card">
+                        <div class="a4-chart-title">4. สินค้ายอดนิยม (Top 5) จำนวน (คน) | %</div>
+                        <div style="flex:1; display:flex; align-items:center; width:100%;">
+                            ${topTableHtml}
+                        </div>
+                    </div>
+                    <div class="a4-chart-card">
+                        <div class="a4-chart-title">5. ความถี่ในการดื่ม</div>
+                        <div class="a4-chart-img-wrap"><img src="${imgQ5}" alt="Chart Q5"></div>
+                    </div>
+                    <div class="a4-chart-card">
+                        <div class="a4-chart-title">7. ความใกล้เคียงรสชาติ</div>
+                        <div class="a4-chart-img-wrap"><img src="${imgQ7}" alt="Chart Q7"></div>
+                    </div>
+                    <div class="a4-chart-card">
+                        <div class="a4-chart-title">6.1 ผลทดสอบ (ภาพรวม)</div>
+                        <div class="a4-chart-img-wrap"><img src="${imgQ6}" alt="Chart Q6"></div>
+                    </div>
+                    <div class="a4-chart-card highlight-card">
+                        <div class="a4-chart-title">6.2 ผลทดสอบ (เฉพาะกลุ่ม BLEND285)</div>
+                        <div class="a4-chart-img-wrap"><img src="${imgQ6F}" alt="Chart Q6 Filtered"></div>
+                    </div>
+                </div>
+
+                <div class="a4-page-footer">
+                    <span>BLEND285 Sensory Test — รายงานสรุปผลการทดสอบความละเอียดสูง</span>
+                    <span>หน้า 1 (สรุปกราฟทั้งหมด)</span>
+                </div>
+            `;
+            return page1;
+        }
+
+        function buildA4TablePageElement(rowsChunk, startIndex, totalRows, pageNumber, totalPages, dateStr) {
+            const page = document.createElement('div');
+            page.className = 'a4-page';
+            page.style.height = '1584px';
+
+            const rowsHtml = rowsChunk.length > 0
+                ? rowsChunk.map((row, i) => {
+                    const f = extractRowFields(row);
+                    const rowNum = startIndex + i + 1;
+                    return `<tr>
+                        <td class="text-center"><b>${rowNum}</b></td>
+                        <td>${escapeHtml(f.timestamp || '-')}</td>
+                        <td class="text-center"><b>${escapeHtml(f.phone || '-')}</b></td>
+                        <td>${escapeHtml(f.place || '-')}</td>
+                        <td class="text-center">${escapeHtml(f.gender || '-')}</td>
+                        <td class="text-center">${escapeHtml(f.age || '-')}</td>
+                        <td>${escapeHtml(f.drinks || '-')}</td>
+                        <td class="text-center">${escapeHtml(f.freq || '-')}</td>
+                        <td class="text-center"><b>${escapeHtml(f.r1 || '-')}</b></td>
+                        <td class="text-center"><b>${escapeHtml(f.r2 || '-')}</b></td>
+                        <td class="text-center"><b>${escapeHtml(f.r3 || '-')}</b></td>
+                        <td class="text-center">${escapeHtml(f.similar || '-')}</td>
+                        <td>${escapeHtml(f.comment || '-')}</td>
+                    </tr>`;
+                }).join('')
+                : `<tr><td colspan="13" class="text-center" style="padding:24px; color:#888;">ไม่มีข้อมูลผู้ตอบแบบสอบถาม</td></tr>`;
+
+            page.innerHTML = `
+                <div style="flex:1; display:flex; flex-direction:column;">
+                    <div class="a4-page-header">
+                        <div>
+                            <h1>ตารางข้อมูลผู้กรอกแบบฟอร์ม (รายบุคคลครบทุกช่อง)</h1>
+                            <div style="font-size:0.86rem; color:#555; margin-top:2px;">
+                                แสดงข้อมูลผู้ตอบแบบสอบถามรายการที่ ${rowsChunk.length > 0 ? (startIndex + 1) + ' - ' + (startIndex + rowsChunk.length) : '0'} จากทั้งหมด ${totalRows} คน
+                            </div>
+                        </div>
+                        <div class="a4-meta">
+                            <div><b>วันที่ออกรายงาน:</b> ${escapeHtml(dateStr)}</div>
+                            <div><b>หน้าที่ ${pageNumber} / ${totalPages}</b></div>
+                        </div>
+                    </div>
+
+                    <div class="a4-table-wrap">
+                        <table class="a4-report-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 3.5%;">#</th>
+                                    <th style="width: 9.5%;">วัน-เวลา</th>
+                                    <th style="width: 9%;">เบอร์โทรศัพท์</th>
+                                    <th style="width: 11.5%;">1. สถานที่ทดสอบ</th>
+                                    <th style="width: 5%;">2. เพศ</th>
+                                    <th style="width: 7%;">3. ช่วงอายุ</th>
+                                    <th style="width: 13.5%;">4. เครื่องดื่มที่นิยม</th>
+                                    <th style="width: 8%;">5. ความถี่</th>
+                                    <th style="width: 5.5%;">6. ชอบมากที่สุด</th>
+                                    <th style="width: 5.5%;">6. ชอบปานกลาง</th>
+                                    <th style="width: 5.5%;">6. ชอบน้อยที่สุด</th>
+                                    <th style="width: 7.5%;">7. ความใกล้เคียง</th>
+                                    <th style="width: 9%;">8. ข้อเสนอแนะ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rowsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="a4-page-footer">
+                    <span>BLEND285 Sensory Test — ตารางข้อมูลผู้กรอกแบบฟอร์มครบทุกช่อง</span>
+                    <span>หน้า ${pageNumber} / ${totalPages}</span>
+                </div>
+            `;
+            return page;
+        }
+
         async function exportReportA4() {
-            Swal.fire({ title: 'กำลังสร้างไฟล์ PDF (A4)...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({
+                title: 'กำลังสร้างไฟล์ Report ขนาด A4 ความละเอียดสูง...',
+                text: 'กำลังเรนเดอร์กราฟสมมาตรระดับ Ultra HD (หน้าที่ 1) และตารางข้อมูลผู้กรอก (หน้าที่ 2)...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            const stage = document.getElementById('a4ExportStage');
+            stage.innerHTML = '';
+
             try {
-                const target = document.getElementById('pdfContent');
-                const canvas = await html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
-                const imgData = canvas.toDataURL('image/png');
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, Math.min(pdfHeight, pdf.internal.pageSize.getHeight()));
-                pdf.save(`BLEND285_Sensory_Report_${getTodayDateKey()}.pdf`);
+                if (document.fonts && document.fonts.ready) {
+                    await document.fonts.ready;
+                }
+
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' }) + ' ' +
+                    now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+                const fileDate = now.toISOString().slice(0, 10);
+
+                const activeFilterList = Object.keys(activeFilters).filter(k => activeFilters[k]).map(k => activeFilters[k]);
+                const filterText = activeFilterList.join(', ');
+
+                const rows = lastFilteredData || [];
+                const ROWS_PER_A4_PAGE = 22;
+                const rowChunks = [];
+                if (rows.length === 0) {
+                    rowChunks.push([]);
+                } else {
+                    for (let i = 0; i < rows.length; i += ROWS_PER_A4_PAGE) {
+                        rowChunks.push(rows.slice(i, i + ROWS_PER_A4_PAGE));
+                    }
+                }
+
+                const totalPages = 1 + rowChunks.length;
+
+                const page1El = buildA4Page1Element(dateStr, filterText);
+                const page1TotalBadge = page1El.querySelector('.a4-meta div:last-child');
+                if (page1TotalBadge) page1TotalBadge.innerHTML = `<b>หน้าที่ 1 / ${totalPages}</b> (สรุปผลกราฟทั้งหมด)`;
+                const page1FooterRight = page1El.querySelector('.a4-page-footer span:last-child');
+                if (page1FooterRight) page1FooterRight.textContent = `หน้า 1 / ${totalPages}`;
+                stage.appendChild(page1El);
+
+                const tablePageElements = [];
+                rowChunks.forEach((chunk, idx) => {
+                    const pEl = buildA4TablePageElement(chunk, idx * ROWS_PER_A4_PAGE, rows.length, idx + 2, totalPages, dateStr);
+                    stage.appendChild(pEl);
+                    tablePageElements.push(pEl);
+                });
+
+                const imgs = Array.from(stage.querySelectorAll('img'));
+                await Promise.all(imgs.map(img => {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise(res => { img.onload = res; img.onerror = res; });
+                }));
+
+                const allPages = [page1El, ...tablePageElements];
+
+                if (window.jspdf && window.jspdf.jsPDF) {
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
+                    const pdfWidth = 210;
+                    const pdfHeight = 297;
+
+                    for (let i = 0; i < allPages.length; i++) {
+                        if (i > 0) pdf.addPage('a4', 'portrait');
+                        const canvas = await html2canvas(allPages[i], {
+                            scale: 3.5,
+                            useCORS: true,
+                            logging: false,
+                            backgroundColor: '#ffffff',
+                            width: 1120,
+                            height: 1584,
+                            windowWidth: 1120,
+                            windowHeight: 1584
+                        });
+                        const imgData = canvas.toDataURL('image/png', 1.0);
+                        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'SLOW');
+                    }
+
+                    pdf.save(`BlendSignature_Report_A4_${fileDate}.pdf`);
+                } else {
+                    for (let i = 0; i < allPages.length; i++) {
+                        const canvas = await html2canvas(allPages[i], {
+                            scale: 3.5,
+                            useCORS: true,
+                            logging: false,
+                            backgroundColor: '#ffffff',
+                            width: 1120,
+                            height: 1584,
+                            windowWidth: 1120,
+                            windowHeight: 1584
+                        });
+                        const imgData = canvas.toDataURL('image/png', 1.0);
+                        const link = document.createElement('a');
+                        link.download = `BlendSignature_Report_A4_Page${i + 1}_${fileDate}.png`;
+                        link.href = imgData;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+
+                stage.innerHTML = '';
                 Swal.close();
-            } catch (e) {
-                Swal.close();
-                Swal.fire('Error', 'ไม่สามารถสร้างไฟล์ PDF ได้', 'error');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ดาวน์โหลด Report (A4) ความละเอียดสูงเรียบร้อย',
+                    text: 'จัดหน้ากระดาษ A4 สมมาตรคมชัดระดับ Ultra HD ครบทุกกราฟ (หน้าที่ 1) และตารางข้อมูลพร้อมเบอร์โทร (หน้าที่ 2)',
+                    confirmButtonColor: '#D4AF37'
+                });
+            } catch (err) {
+                console.error(err);
+                stage.innerHTML = '';
+                Swal.fire('Error', 'ไม่สามารถบันทึกไฟล์รายงานได้', 'error');
             }
         }
 
+        const exportImage = exportReportA4;
+
         function setupScrollReveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(el => el.classList.add('active'));
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.05 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         }
     </script>
 </body>
